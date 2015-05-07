@@ -32,29 +32,32 @@
 \contentsline {chapter}{\numberline {7}Operators}{28}
 \contentsline {section}{\numberline {7.1}String Concatenation}{28}
 \contentsline {section}{\numberline {7.2}Arithmetic}{28}
+\contentsline {section}{\numberline {7.3}Boolean Algebra}{28}
+\contentsline {section}{\numberline {7.4}Comparisons}{28}
 \contentsline {chapter}{\numberline {8}Control Structures}{29}
 \contentsline {section}{\numberline {8.1}if-else}{29}
 \contentsline {section}{\numberline {8.2}nested if-else}{31}
 \contentsline {section}{\numberline {8.3}while}{35}
-\contentsline {chapter}{\numberline {9}Functions}{37}
-\contentsline {section}{\numberline {9.1}Inputs and Outputs}{37}
-\contentsline {section}{\numberline {9.2}Scope}{39}
-\contentsline {section}{\numberline {9.3}Recursion}{41}
-\contentsline {section}{\numberline {9.4}Exception Handling}{42}
-\contentsline {section}{\numberline {9.5}Side-effects}{44}
-\contentsline {section}{\numberline {9.6}Closure}{44}
-\contentsline {chapter}{\numberline {10}Data Structures}{47}
-\contentsline {section}{\numberline {10.1}Objects}{47}
-\contentsline {subsection}{\numberline {10.1.1}Code Exercises}{49}
-\contentsline {section}{\numberline {10.2}Arrays}{49}
-\contentsline {section}{\numberline {10.3}JSON}{51}
-\contentsline {chapter}{\numberline {11}Constructors}{52}
-\contentsline {section}{\numberline {11.1}\texttt {new} Constructor}{52}
-\contentsline {section}{\numberline {11.2}Inside a Functional Constructor}{52}
-\contentsline {section}{\numberline {11.3}The \texttt {specs} Object}{53}
-\contentsline {section}{\numberline {11.4}Extending Objects}{57}
-\contentsline {section}{\numberline {11.5}Copy Constructor}{59}
-\contentsline {section}{\numberline {11.6}Getters and Setters}{59}
-\contentsline {section}{\numberline {11.7}}{59}
-\contentsline {section}{\numberline {11.8}Sharing Hidden Information}{59}
-\contentsline {chapter}{\numberline {12}Searching and Sorting}{62}
+\contentsline {section}{\numberline {8.4}for}{37}
+\contentsline {chapter}{\numberline {9}Functions}{38}
+\contentsline {section}{\numberline {9.1}Inputs and Outputs}{38}
+\contentsline {section}{\numberline {9.2}Function Scope}{40}
+\contentsline {section}{\numberline {9.3}Recursion}{42}
+\contentsline {section}{\numberline {9.4}Exception Handling}{43}
+\contentsline {section}{\numberline {9.5}Side-effects}{45}
+\contentsline {section}{\numberline {9.6}Closure}{45}
+\contentsline {chapter}{\numberline {10}Data Structures}{48}
+\contentsline {section}{\numberline {10.1}Objects}{48}
+\contentsline {subsection}{\numberline {10.1.1}Code Exercises}{50}
+\contentsline {section}{\numberline {10.2}Arrays}{50}
+\contentsline {section}{\numberline {10.3}JSON}{52}
+\contentsline {chapter}{\numberline {11}Constructors}{53}
+\contentsline {section}{\numberline {11.1}\texttt {new} Constructor}{53}
+\contentsline {section}{\numberline {11.2}Inside a Functional Constructor}{53}
+\contentsline {section}{\numberline {11.3}The \texttt {specs} Object}{54}
+\contentsline {section}{\numberline {11.4}Extending Objects}{58}
+\contentsline {section}{\numberline {11.5}Copy Constructor}{60}
+\contentsline {section}{\numberline {11.6}Getters and Setters}{60}
+\contentsline {section}{\numberline {11.7}}{60}
+\contentsline {section}{\numberline {11.8}Sharing Hidden Information}{60}
+\contentsline {chapter}{\numberline {12}Searching and Sorting}{63}

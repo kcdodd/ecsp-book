@@ -4,10 +4,25 @@
 \indexentry{instruction set}{18}
 \indexentry{variable}{18}
 \indexentry{abstraction}{19}
-\indexentry{Object!empty object}{47}
-\indexentry{Object!property}{47}
-\indexentry{Array!index}{49}
-\indexentry{JSON}{51}
-\indexentry{constructor}{52}
-\indexentry{new}{52}
-\indexentry{closure}{53}
+\indexentry{if}{29}
+\indexentry{and}{34}
+\indexentry{or}{34}
+\indexentry{while loop}{35}
+\indexentry{for loop}{37}
+\indexentry{function}{38}
+\indexentry{arguments of a function}{38}
+\indexentry{return statement}{39}
+\indexentry{function scope}{40}
+\indexentry{recursion}{42}
+\indexentry{exceptions}{43}
+\indexentry{throw statement}{43}
+\indexentry{try-catch}{44}
+\indexentry{side effects of a function}{45}
+\indexentry{closure}{45}
+\indexentry{Object!empty object}{48}
+\indexentry{Object!property}{48}
+\indexentry{Array!index}{50}
+\indexentry{JSON}{52}
+\indexentry{constructor}{53}
+\indexentry{new}{53}
+\indexentry{closure}{54}

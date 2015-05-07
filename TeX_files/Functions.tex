@@ -1,5 +1,7 @@
 \chapter{Functions}
 
+\index{function}
+
 In a pure mathematical sense, a function is defined as taking an input and determining some output based on that input. A function allows us to group a piece of code that we expect to re-use many times.
 
 \section{Inputs and Outputs}
@@ -10,9 +12,13 @@ A simple example might be a function that finds the absolute value of a number. 
 
 Let's take a look at all the elements of how we create functions in JavaScript. The \texttt{var absolute} is a variable just like any other variable. It is how we are going to refer to this particular function later on in the program. The assignment \texttt{=} is simply stating that once I create the function, that variable will hold a reference to it.\\
 
+\index{arguments of a function}
+
 Next, I use the \texttt{function} keyword to state that I am defining a new function. What follows is an open and closed set of parenthesis. This defines the argument list to the function: the inputs to the function, and how I will refer to them from within the function. \texttt{function(x)} means that this function will have 1 input, and we will refer to that input as \texttt{x} within the function as if it is a variable. However, \texttt{x} is not accessible outside the function, only inside of it.\\
 
 What follows the argument list is a set of open and closed curly brackets \texttt{\{\}}. All of the code between these brackets is what is run whenever the function is called. This is where I put any of the control structures or calls to other functions I wish to occur to complete the task this function is supposed to perform.\\
+
+\index{return statement}
 
 The \texttt{return} statement causes the function to stop executing the function code, and return immediately back to where the function was called. A single value can also be returned to that point as in this example. The absolute value function checks to see if the number is negative. If it is, it returns the negation of the number causing it to return a positive number. Otherwise it will return the original number, which I know must already be a positive number.\\
 
@@ -22,7 +28,9 @@ After the closing bracket of the function is a semi-colon, which is placed there
 
 Once the function is defined, I can call the function by referring to it using the \texttt{absolute} variable. Calling the function is performed by placing an open and closed set of parenthesis with the values I wish the arguments to have inside the function, in exactly the same order as they appeared in the argument list when the function was defined. In this example I find the absolute value of \texttt{-3.5} by calling the function with that as the value of the \texttt{x} argument: \texttt{absolute(-3.5)}. This is such a useful function that it is a part of JavaScript already, and can be called by referring to \texttt{Math.abs(x)}.\\
 
-\section{Scope}
+\section{Function Scope}
+
+\index{function scope}
 
 I can put any code inside a function that I wish, including defining new variables. However, when I define a variable in a function, that variable is not directly accessible outside of the function. This is called function scope. This prevents causing confusion when using the same variable name in different functions.\\
 
@@ -50,6 +58,8 @@ After the loop is done I just need to return the value of \texttt{guess} back to
 
 \section{Recursion}
 
+\index{recursion}
+
 The code inside a function can call other functions, including itself. When a function calls itself, or results in another call to itself, this is called recursion. This is a form of iteration since the same code is executed repeatedly, and so must have some condition when it will stop, just like with a loop.\\
 
 \codejs{\source{js/factorial.js}}
@@ -68,6 +78,9 @@ As an exercise, lets see what would happen if we called \texttt{factorial(-1)}? 
 
 \section{Exception Handling}
 
+\index{exceptions}
+\index{throw statement}
+
 The function call \texttt{factorial(-1)} never returns, but it doesn't run forever either. It simply exhausts the resources of the computer and crashes the program. For one, factorial isn't really even defined for -1. So it shouldn't have even attempted to compute it. This is an undefined scenario. The way I might deal with that is by throwing an exception from THE function to tell whoever tried to compute \((-1)!\) that they're not suppose to do that.\\
 
 \codejs{\source{js/factorial_exception.js}}
@@ -76,9 +89,13 @@ The \texttt{throw} keyword works similarly to \texttt{return}: The function will
 
 The way we can handle possible exceptions from a function is called a try-catch block. I put the code that might cause an exception inside the braces of the \texttt{try}. If no exception occurs, then everything proceeds as if there is no exception handling at all. However, if that code results in an exception, then execution in the try block terminates, and the catch block begins executing and the \texttt{err} argument contains the value that was specified at the \texttt{throw} statement.\\
 
+\index{try-catch}
+
 \codejs{\source{js/factorial_exception_handled.js}}
 
 \section{Side-effects}
+
+\index{side effects of a function}
 
 Since the code inside a function can access the variables declared outside of the function, it can also alter the values stored in those variables. Since those variables are not arguments to the function, nor are they assigned from the \texttt{return} from the function, we call this type of alteration a \textit{side-effect} of calling the function.
 
@@ -89,6 +106,8 @@ In this example \texttt{increment} is a function that has no arguments, and does
 This type of behavior is very useful and powerful, but it must be used carefully. Since side-effects can have consequences far away from where the function is actually called, as opposed to the return statement, and persist after the function returns, someone that didn't write the function may not understand what it's doing. Documentation should be used to describe what is happening if a function has side-effects.\\
 
 \section{Closure}
+
+\index{closure}
 
 A closure happens when one function is defined inside the scope of another function, but is still callable after the outer function has already returned. It is also a way of using the power of function side-effects without any of the dangers by containing the side effects to a particular function scope.
 

@@ -4,6 +4,8 @@ To make our code capable representing any computation, certain control structure
 
 \section{if-else}
 
+\index{if}
+
 Conditional execution in JavaScript is implemented using the if-else structure, or just called an if-statement. To use an if-statement I first need a quantity that reduces to a boolean value: either true or false. This value becomes the condition under which a particular piece of code is executed if it is true. The condition is placed between the set of open and closed parenthesis. Immediately following the parenthesis is the piece of code that will be executed if the condition is true. The code is grouped together using an open-closed set of curly brackets.
 
 \codejs{\source{js/if_true.js}}
@@ -48,9 +50,13 @@ While this is logically equivalent to the first structure, it checks and recheck
 
 Let's look at exactly how an if-else can be re-written with logical operators, or vice-versa. A single 'and' operation can be thought of as a nested if-else statement where both conditions have to be true for the result to be true. If either condition is false (or both), the result is false. The two if-else structures in the following example are equivalent.
 
+\index{and}
+
 \codejs{\source{js/and.js}}
 
 For an 'or' operation, if at least one of the conditions is true (or both), then the result is true. This can be represented by a series of if-else statements. The only time the result is false is if both conditions are false.
+
+\index{or}
 
 \codejs{\source{js/or.js}}
 
@@ -59,6 +65,8 @@ These kind of examples also help to explain what is called short-circuit behavio
 It may seem like we don't need to worry about short circuit behavior as programmers, since why should we care if it checks a value or not. For the most part it doesn't matter for writing programs. However, if you make a function call in the condition of an if-statement, short-circuit behavior could matter if that function call does something in addition to being a condition.
 
 \section{while}
+
+\index{while loop}
 
 The iteration control structure has to be tied to a conditional structure, so that it knows when to stop. A \texttt{while} loop initially behaves similarly to an if-statement. The condition is placed in the parenthesis immediately following the \texttt{while} keyword. If the condition is false, then execution skips the code in the braces. If the condition is true, it executes the code in the braces, but after it's done it re-evaluates the condition. It continues to execute the code in the braces, and evaluates the condition, until the condition is false.\\
 
@@ -74,3 +82,25 @@ A loop will continue to repeat itself for as long as the condition is true. If n
 
 The above example will run forever, even though it might look very similar to the first example. The issue is that the variable being changed inside the loop is different than the variable being used in the condition. \texttt{x < 5} will always be true, and thus it will loop forever.\\
 
+A while loop does not necessarily have to proceed in a linear fashion. How many times does the following loop repeat, and what is the final value of \texttt{x}?
+
+\codejs{\source{js/powersof2loop.js}}
+
+
+Consider the following loop as a brain teaser.
+
+\codejs{\source{js/zigzagloop.js}}
+
+Does this loop ever stop? If so, how many times does it loop? Just by looking at the terminating condition, and assuming it does stop eventually, what must be the final value of \texttt{x}?
+
+\section{for}
+
+\index{for loop}
+
+The 'for' loop is a shorter way of writing a linear while loop. If I know ahead of time exactly how many times I want the loop to repeat, there is a regular pattern I can follow. First, create a variable that starts at zero. The loop condition is as long as that variable is less than the number of times I want it to loop. And after each loop I add 1 to the variable.
+
+\codejs{\source{js/countto5for.js}}
+
+When you write a for loop, the stuff inside the parenthesis is not just the loop condition. It also contains the initial value of the loop control variable, and the increment operation done after each time through the loop. In every other way this for loop works exactly the same as the while loop. It loops exactly 5 times.\\
+
+Now, what numbers get printed to the console? The first time through the loop the value of \texttt{x} is 0, so 0 gets printed. The 1, 2, 3, and 4. After it prints the 4 the increment \texttt{x++} adds 1 to x, making it 5. But \texttt{5 < 5} is false, and so the loop doesn't repeat. Even though the final value is 5, it never gets printed.
