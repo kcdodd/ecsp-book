@@ -1,0 +1,81 @@
+\ProvidesPackage{thisbook}[2015/03/12 v1.0 Book Macros]
+
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{graphicx}
+\RequirePackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\RequirePackage{imakeidx}
+\RequirePackage{enumerate}
+
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[english]{babel}
+\RequirePackage{minted}
+
+
+% Formatting
+\definecolor{codebgcolor}{gray}{0.98}
+
+\newcommand{\source}[1]{./code/#1}
+
+\newmintedfile[codehtml]{html}{
+	fontfamily=tt,
+	fontsize=\footnotesize,
+	linenos=true,
+	numberblanklines=true,
+	numbersep=12pt,
+	numbersep=5pt,
+	gobble=0,
+	frame=none,
+	framerule=0.4pt,
+	framesep=2mm,
+	funcnamehighlighting=true,
+	tabsize=4,
+	obeytabs=false,
+	mathescape=false
+	%samepage=false, %with this setting you can force the list to appear on the same page
+	showspaces=false,
+	showtabs =false,
+	texcl=false,
+}
+
+\newmintedfile[codejs]{javascript}{
+	%bgcolor=white,
+	fontfamily=tt,
+	fontsize=\footnotesize,
+	linenos=true,
+	numberblanklines=true,
+	numbersep=12pt,
+	numbersep=5pt,
+	gobble=0,
+	frame=none,
+	framerule=0.4pt,
+	framesep=2mm,
+	funcnamehighlighting=true,
+	tabsize=4,
+	obeytabs=false,
+	mathescape=false
+	samepage=false, %with this setting you can force the list to appear on the same page
+	showspaces=false,
+	showtabs =false,
+	texcl=false,
+}
+
+%
+% Inserts single image with no caption
+% #1 : filename
+\newcommand{\imagegraphic}[2][0.5]{
+	{
+		\centering
+		\includegraphics[width=#1\textwidth]{./images/#2}
+	}
+}
+
+\newcommand{\mdit}{$\kern0.1em\bullet\kern0.1em$}
+\newcommand{\mdah}{$\kern0.1em\rule{9pt}{3.5pt}\kern0.1em$}
+\newcommand{\mlet}{$\kern0.5em$}
+\newcommand{\mword}{$\kern1.5em$}
+
+\newcommand{\fbeat}{$\rule{0.1em}{9pt}\kern0.4em$}
+\newcommand{\fdit}{$\rule{0.5em}{9pt}\kern0.5em$}
+\newcommand{\fdah}{$\rule{1.5em}{9pt}\kern0.5em$}
+\newcommand{\flet}{$\kern1em$}
+\newcommand{\fword}{$\kern3em$}

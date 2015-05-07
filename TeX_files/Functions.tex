@@ -1,0 +1,101 @@
+\chapter{Functions}
+
+In a pure mathematical sense, a function is defined as taking an input and determining some output based on that input. A function allows us to group a piece of code that we expect to re-use many times.
+
+\section{Inputs and Outputs}
+
+A simple example might be a function that finds the absolute value of a number. That is, it gets rid of the negative sign if the number is negative, or else it leaves it alone.
+
+\codejs{\source{js/absolute.js}}
+
+Let's take a look at all the elements of how we create functions in JavaScript. The \texttt{var absolute} is a variable just like any other variable. It is how we are going to refer to this particular function later on in the program. The assignment \texttt{=} is simply stating that once I create the function, that variable will hold a reference to it.\\
+
+Next, I use the \texttt{function} keyword to state that I am defining a new function. What follows is an open and closed set of parenthesis. This defines the argument list to the function: the inputs to the function, and how I will refer to them from within the function. \texttt{function(x)} means that this function will have 1 input, and we will refer to that input as \texttt{x} within the function as if it is a variable. However, \texttt{x} is not accessible outside the function, only inside of it.\\
+
+What follows the argument list is a set of open and closed curly brackets \texttt{\{\}}. All of the code between these brackets is what is run whenever the function is called. This is where I put any of the control structures or calls to other functions I wish to occur to complete the task this function is supposed to perform.\\
+
+The \texttt{return} statement causes the function to stop executing the function code, and return immediately back to where the function was called. A single value can also be returned to that point as in this example. The absolute value function checks to see if the number is negative. If it is, it returns the negation of the number causing it to return a positive number. Otherwise it will return the original number, which I know must already be a positive number.\\
+
+I can put a \texttt{return} statement in multiple places within the function code, but only one of them will be called during a particular call to the function since it will immediately terminate the function as soon as it's reached. So, if it returns the negation of a negative number inside the \texttt{if} statement, it will never reach the other \texttt{return} statement.\\
+
+After the closing bracket of the function is a semi-colon, which is placed there because of the assignment operation that assigned this function into the variable \texttt{absolute}, just like every other assignment operation such as \texttt{var z = 4;}.\\
+
+Once the function is defined, I can call the function by referring to it using the \texttt{absolute} variable. Calling the function is performed by placing an open and closed set of parenthesis with the values I wish the arguments to have inside the function, in exactly the same order as they appeared in the argument list when the function was defined. In this example I find the absolute value of \texttt{-3.5} by calling the function with that as the value of the \texttt{x} argument: \texttt{absolute(-3.5)}. This is such a useful function that it is a part of JavaScript already, and can be called by referring to \texttt{Math.abs(x)}.\\
+
+\section{Scope}
+
+I can put any code inside a function that I wish, including defining new variables. However, when I define a variable in a function, that variable is not directly accessible outside of the function. This is called function scope. This prevents causing confusion when using the same variable name in different functions.\\
+
+\codejs{\source{js/sqrt.js}}
+
+This example shows one particular way of approximately computing the square root of a number using iteration. JavaScript has a square root function already as \texttt{Math.sqrt(x)}, but lets look at how this function works.\\
+
+It begins just like the \texttt{absolute} function, by declaring a new variable \texttt{var sqrt = } to name the \texttt{function}, and an argument list \texttt{(...)} naming a single input \texttt{x}. However, this \texttt{x} is not the same as the previous \texttt{x}. The argument is only referenced inside of the function, and since this is a different function the argument can have the same name.\\
+
+The first thing done when the function is called is to declare a variable \texttt{guess}, which will end up being the approximate value of the square root of the input. The initial value of \texttt{guess} is not super important, but I know that the square root of a number is less than the number itself, so starting with a guess of half the original number is a good start.\\
+
+Another variable \texttt{max\_error} is then declared to hold a value of how accurate I want the answer to be. I might be tempted to just put zero here, but if I did that then the function may not ever finish running! Basically, if I want a more accurate answer, the function will take longer to run since it will have to iterate more times. So, I just pick a value of the error that is small compared to the numbers I am interested in.\\
+
+These variables are not accessible outside of the function. They don't exist until the function is called, and once the function stops they in effect disappear. So, if I want a variable declared in a function to have a particular value, then I have to assign it within the function. If I want to know what the value was once the function returns, then I have to make sure there is another way to access it, such as using the \texttt{return} statement to return the value the variable contained.\\
+
+A while-loop control structure is then used to implement the iteration. The loop should continue to iterate until the error is less-than or equal to the maximum error that I specified. To do that, the square of the \texttt{guess} is computed by multiplying it by itself, and then subtracting from what should be the true value of the square, which was the original number. If the guess was exactly equal to the square root of \texttt{x}, then this difference would be zero. However, it could be more or less than the true value since it is only approximate.\\
+
+The difference \texttt{guess*guess - x} is then fed into the \texttt{absolute()} function from earlier because the difference could be negative, and I only care about how big it is in magnitude so that I can use the comparison operator to see if it's bigger than the maximum error I want.\\
+
+Notice that I did some math inside of the argument list of the \texttt{absolute()} function. That is ok! Before \texttt{absolute} is called, all of the operations inside there are performed to result in a single number that is then assigned as the argument to the function, and only then is \texttt{absolute} actually called. Also, notice that \texttt{absolute} is really a variable declared outside of the \texttt{sqrt} function, but I am referring to it from inside the \texttt{sqrt} function. Function scope works like a one-way mirror: it can see all the variables declared outside, but no-one on the outside can see the variables that are inside.\\
+
+Inside the while loop the \texttt{guess} is made better by using some mathematical magic based on the previous guess and the original number. Every time through the loop the \texttt{guess} gets closer and closer to the real deal, and eventually it's close enough that the loop condition causes the loop to stop.\\
+
+After the loop is done I just need to return the value of \texttt{guess} back to where the function was called. At this point the variables \texttt{guess} and \texttt{max\_error} can no longer be referenced from anywhere, but the returned value is assigned into the variable \texttt{y} in this example, so that is where it is now stored.\\
+
+\section{Recursion}
+
+The code inside a function can call other functions, including itself. When a function calls itself, or results in another call to itself, this is called recursion. This is a form of iteration since the same code is executed repeatedly, and so must have some condition when it will stop, just like with a loop.\\
+
+\codejs{\source{js/factorial.js}}
+
+This example shows a recursive function that computes the factorial of an integer: \(n! = n(n-1)(n-2)...(3)(2)1\). The first thing it does is see if the argument to the function is  0, since factorial of 0 is 1. If it's not 0, then it computes the factorial of 1 less than the argument by calling itself on \texttt{n-1}, multiplies the result by \texttt{n} and returns that. It can call itself because the variable \texttt{factorial} is already defined, and the function will be defined before it gets called the first time.\\
+
+Why does this work? The first time the function is called, the argument is equal to the number it's actually computing the factorial of. Say it's the number 5. We know that \(5! = 5*4*3*2*1\), and we noticed that \(4! = 4*3*2*1\). So we can re-write the original problem as \(5! = 5*4!\). Translating that into code means that the factorial of a number can be computed by calling the same function on 1 less than that number, and multiplying the result by the number.\\
+
+When the function is called the second time, the argument n has a value of 4. Technically speaking, the first call to the function hasn't even finished yet. It's waiting for the second call of the function to return before it can multiply by it's version of n to return the total answer. This is ok because every time the function is called it creates an entirely new \texttt{n} to work with, so the computer doesn't get confused about which one is which. That is called a stack frame, and every recursive call creates a new frame on the stack of all the previous calls that are waiting on this particular call to the function to finish.\\
+
+To complete this call, the same logic applies as the first time. \(4! = 4 * 3!\). This keeps working until it gets down to zero. \(1! = 1 * 0!\), but then what is \(0!\)? If we let the function keep doing the same thing it would think that \(0! = 0 * (-1)!\), and then \((-1)! = (-1)*(-2)!\)  and so on. For one thing that's just wrong. For another, it would never stop! That is what the if-statement is for: it's a terminating condition for when it reaches 0.\\
+
+Once the terminating condition is reached, it returns a value without having to call itself anymore. All the previous calls to the function on the call stack that are waiting can then be completed in the reverse order. \texttt{factorial(0)} returns 1. Then \texttt{factorial(1)} returns 1. Then \texttt{factorial(2)} returns 2. \texttt{factorial(3)} returns 6. \texttt{factorial(4)} returns 24. And finally \texttt{factorial(5)} returns 120, which was the first thing to get called and is the final answer.\\
+
+As an exercise, lets see what would happen if we called \texttt{factorial(-1)}? You can code it up and just see. But lets also think about it logically why what happens, happens. If the argument starts out as -1, the first thing it does is check to see if it's equal to 0. It's not, so it does the recursive call sending in \texttt{n-1}, which is -2. As stated before, this will cause an infinite recursion because the terminating condition \texttt{n === 0} will never be reached. However, it won't run forever. What will happen is that it continues to pile recursive calls onto the call stack, potentially thousands of times, but at some point the computer will say that the maximum size of the stack was reached and will terminate the program, called a stack overflow.\\
+
+\section{Exception Handling}
+
+The function call \texttt{factorial(-1)} never returns, but it doesn't run forever either. It simply exhausts the resources of the computer and crashes the program. For one, factorial isn't really even defined for -1. So it shouldn't have even attempted to compute it. This is an undefined scenario. The way I might deal with that is by throwing an exception from THE function to tell whoever tried to compute \((-1)!\) that they're not suppose to do that.\\
+
+\codejs{\source{js/factorial_exception.js}}
+
+The \texttt{throw} keyword works similarly to \texttt{return}: The function will stop executing, and a value will be associate with the termination. In this case I send a message about what happened. When something is thrown, however, it is an error, and causes what is called a program exception (something that isn't supposed to happen). If that exception is not handled by whatever called the function, then the whole program will terminate. This prevents the undefined behavior from happening unknown to anyone. The stack overflow was also an exception, but the exception I add should catch the problem sooner and give more information about what the issue is.\\
+
+The way we can handle possible exceptions from a function is called a try-catch block. I put the code that might cause an exception inside the braces of the \texttt{try}. If no exception occurs, then everything proceeds as if there is no exception handling at all. However, if that code results in an exception, then execution in the try block terminates, and the catch block begins executing and the \texttt{err} argument contains the value that was specified at the \texttt{throw} statement.\\
+
+\codejs{\source{js/factorial_exception_handled.js}}
+
+\section{Side-effects}
+
+Since the code inside a function can access the variables declared outside of the function, it can also alter the values stored in those variables. Since those variables are not arguments to the function, nor are they assigned from the \texttt{return} from the function, we call this type of alteration a \textit{side-effect} of calling the function.
+
+\codejs{\source{js/increment.js}}
+
+In this example \texttt{increment} is a function that has no arguments, and does not return anything. However, when it is called it alters the variable \texttt{i} by adding 1 to its current value. Since \texttt{i} is declared outside of the function, it can be accessed directly even after the function returns.\\
+
+This type of behavior is very useful and powerful, but it must be used carefully. Since side-effects can have consequences far away from where the function is actually called, as opposed to the return statement, and persist after the function returns, someone that didn't write the function may not understand what it's doing. Documentation should be used to describe what is happening if a function has side-effects.\\
+
+\section{Closure}
+
+A closure happens when one function is defined inside the scope of another function, but is still callable after the outer function has already returned. It is also a way of using the power of function side-effects without any of the dangers by containing the side effects to a particular function scope.
+
+\codejs{\source{js/increment_closure.js}}
+
+I've taken the code for the \texttt{increment} function, and placed it inside another function called \texttt{makeIncrement}. When \texttt{makeIncrement} is called, it creates a new instance of \texttt{increment}, which is returned. However, since \texttt{increment} has to have access to the variable \texttt{i} to work, a closure is formed around that function scope so that it still has access to the version of \texttt{i} created at the same time the function was, even after \texttt{makeIncrement} has returned.\\
+
+When \texttt{makeIncrement} returns the inner function, it is stored in a new variable. Whenever that version of \texttt{increment} is called it is working with its own version of \texttt{i}. I can call \texttt{makeIncrement} again, creating a new version of \texttt{increment} with its own version of \texttt{i}, independent of the other one. That is because each call to \texttt{makeIncrement} creates its own scope, and a new closure when it returns.\\
+
+No matter which order the two versions of the function are called, it remembers how many times that particular version has already been called independent from the other one. However, I cannot directly access the variable \texttt{i} because it was inside the function scope of \texttt{makeIncrement}. It is basically a hidden variable that can be used to keep track of some information between function calls, and so as the creator of \texttt{makeIncrement} I don't have to worry about anyone messing with that variable or making any assumptions about it.\\

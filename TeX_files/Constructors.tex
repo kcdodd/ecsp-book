@@ -1,0 +1,130 @@
+\chapter{Constructors}
+
+A constructor is a function that helps make a new object.
+
+\index{constructor}
+
+\section{\texttt{new} Constructor}
+
+\index{new}
+
+You will inevitably encounter constructors that require the use of the \texttt{new} keyword. The convention is that the constructor will start with a capitol letter if \texttt{new} is required. As an example of how to use \texttt{new}, an empty object would be created as follows.
+
+\codejs{\source{js/newKeyword.js}}
+
+\textit{Using} that type of constructor is fairly strait-forward. You just have to remember to put a \texttt{new} in front of it. However, \textit{writing} constructors that use \texttt{new} is outside the scope of this text. You will not need \texttt{new} to use the functional constructors we will write, and that is why I have named these constructors beginning with lower-case \texttt{make}.
+
+\section{Inside a Functional Constructor}
+
+A functional constructor could be as simple as returning a new object defined by an object literal.
+
+\codejs{\source{js/makePi.js}}
+
+To use it we simply call the function just like any other function. But it returns an object that has its own properties.
+
+\codejs{\source{js/makePiEx.js}}
+
+
+The constructor can add anything to the new object to give the object the desired functionality. I will use the convention of naming the object that will be returned from the constructor as \texttt{out} to indicate that anything added to that object will be exposed in the constructed object. Any other local variables will not be exposed, but will still be available to any methods which used them because it forms what is called a closure.
+
+\index{closure}
+
+\codejs{\source{js/CircleA.js}}
+
+When calling the constructor we pass in a number for what we want the radius to be, and it returns the circle object with a couple functions attached to it.
+
+\codejs{\source{js/CircleAEx.js}}
+
+\section{The \texttt{specs} Object}
+
+Another way of defining the argument to a constructor is to pass in a single object where the properties of that object refer to the specifications of the object the constructor is meant to create. This argument can be named with any valid variable name as long as it is used consistently. I have chosen to name it \texttt{specs}.
+
+\codejs{\source{js/Circle.js}}
+
+The \texttt{specs} object can be made using an object literal, and hopefully you can see immediately from reading the code what the inputs are and what they mean.
+
+\codejs{\source{js/constructors.js}}
+
+
+
+I have grown to like this method of passing parameters into a constructor for a couple different reasons. For one, it's easy to read what the inputs mean when the constructors appear in the code. It also makes it easy to change the meaning of the inputs without breaking code that's already been written.\\
+
+As a simple example, suppose we decide to define a circle using the diameter instead of the radius, but there is already code written that defines it using the radius. We don't want to have to go back and re-write that code. If we used a \texttt{specs} object, we can just check to see which one is being used.
+
+\codejs{\source{js/Circle2.js}}
+
+Either radius or diameter can be used now with the same constructor.
+
+\codejs{\source{js/constructorsB.js}}
+
+The specs object is not free of issues though. For one, it may not be clear what needs to go into it when looking at the constructor itself. Incidentally it may not be clear what is in the returned object, either. One could look through the code and figure it out, but even in this simple example it may not be clear if the radius is required, or diameter, or both. This is where documentation is important. Here I just include a comment about what properties the input and output objects should have.
+
+\codejs{\source{js/Circle3.js}}
+
+Another possible issue is that any variable passed into a function retains a reference to that same object. If a variable is used to pass in the object, instead of an object literal, unpredictable things could happen if that variable is used to do other things.
+
+\codejs{\source{js/constructorsBerrors.js}}
+
+Can you see what happened? Since the \texttt{specs} object is used by the radius function, it will return the \textit{current} value of that property when that function is called, which is after \texttt{specs} got changed, and not the value it had when the constructor was called originally. If we want to prevent this kind of mistake from being possible, we need to store those values in local variables which will retain their value no matter what happens to the \texttt{specs} object later on.
+
+\codejs{\source{js/Circle4.js}}
+
+Now that piece of code will work as intended.
+
+\section{Extending Objects}
+
+It is convenient to re-used code to make an object that is related to an object that can already be made. This can be done by creating an object with one constructor, and simply adding or modifying its properties in a different constructor. Say we already have some code that constructs a Person object.
+
+\codejs{\source{js/Person.js}}
+
+And we've been creating Person's like this.
+
+\codejs{\source{js/constructors2.js}}
+
+We can now write another constructor that makes use of the Person object that can already be made by simply calling that constructor, then changing the object. In this example, the \texttt{getSignature} function is redefined to include a title. Remember that functions are themselves just objects, so we can save the original function in a local variable, and then re-use it to make writing the new function a little easier.
+
+\codejs{\source{js/Professional.js}}
+
+A specs object can be passed in that will work with both constructors which makes life nice, and the code more consistent.
+
+\codejs{\source{js/constructors3.js}}
+
+Perhaps instead of adding new functionality to an object, we want a constructor that creates a more restricted type of object. All we have to do is create a custom \texttt{specs} object for the other constructor.
+
+\codejs{\source{js/Doe.js}}
+
+Only the first name is needed because the constructor will add the last name when it calls the Person constructor.
+
+\codejs{\source{js/constructors4.js}}
+
+\section{Copy Constructor}
+
+Suppose we have an object already defined, but we want to make another copy of it without having to figure out what the specs object would have to be. We could add a case to handle that within the constructor itself.
+
+\section{Getters and Setters}
+
+\section{}
+
+\section{Sharing Hidden Information}
+
+Hiding information is accomplished by storing values in the local variables of the constructor. These variables are not directly accessible outside of the function, unless a method is added to the \texttt{out} object to do something we want. However, there could be a time that we would like to extend an object and have access to some information defined in another constructor, but still not expose it in the resulting object.\\
+
+Doing this requires a slightly different structure. Instead of having a single layer functional constructor, we need two layers. The first layer creates the object and returns the exposed object, but also an object that contains information that is meant to be hidden. I will name this function starting with the word \texttt{extend}.\\
+
+
+The second layer hides the information that isn't supposed to be visible and looks like a normal constructor from the outside world. Even though these have to be two separate functions, we could still group them together into a single object, and have the properties of that object be the two functions. Here is an example of a Linear Congruential Generation (pseudo-random numbers).
+
+\codejs{\source{js/BadRandom.js}}
+
+
+We can use the make function property to make one of these with a seed, and see what numbers come out.
+
+\codejs{\source{js/BadRandomEx.js}}
+
+Testing it out we see that this is not a very good generator, but maybe we have an idea how to change some hidden variables to make it better. We can use the extend method to make a new generator but still re-use the old object.
+
+\codejs{\source{js/BetterRandom.js}}
+
+Test it out to see how long it takes to start repeating the same sequence of numbers.\\
+
+This example may seem silly because we could have just changed the original code. The key is that anything added to hidden can be accessed or changed by another extend function.

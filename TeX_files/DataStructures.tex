@@ -1,0 +1,111 @@
+
+
+\chapter{Data Structures}
+
+\section{Objects}
+
+The 'Object' data structure is like a container that can hold named references to values, like variables. In JavaScript, everything that is not a primitive data-type is an object. Functions are also objects that can be passed around and assigned to variables and properties.\\
+
+The most basic object is one that does not hold any other information, and is created by typing an open and closed brace right next to each other \texttt{\{\}}, with nothing inside.
+
+\index{Object!empty object}
+
+\codejs{\source{js/emptyObject.js}}
+
+The named fields of an object are called properties. Properties can be defined for an object at the moment it is created in what is called an object literal. Properties created this way can be named with any valid, non-reserved name. The values of the properties can be any primitive type, including another object.
+
+\index{Object!property}
+
+\codejs{\source{js/objectProperties.js}}
+
+Properties can be referenced in one of two different ways. If the property is a valid variable name, the property name can be placed after the variable name with a period in between.
+
+\begin{center}
+	\texttt{\textcolor{blue}{objectVariable}.\textcolor{blue}{propertyName}  $\rightarrow$ \textcolor{purple}{value}}
+\end{center}
+
+In the above code example, the value of a property aNumber of the myObjct object would result in the value 3.5.
+
+ \begin{center}
+ 	\texttt{\textcolor{blue}{myObject}.\textcolor{blue}{aNumber}  $\rightarrow$ \textcolor{purple}{3.5}}
+ \end{center}
+ 
+ The property can also be referenced by passing a string containing only the property name into square brackets following the object. This might be useful if a variable contains a string that refers to an object property. The variable can be used in the brackets to get the value of the property.
+ 
+\begin{center}
+	\texttt{\textcolor{blue}{objectVariable} [ \textcolor{purple}{"propertyName"} ] $\rightarrow$ \textcolor{purple}{value}}
+\end{center}
+
+As in the above example...
+
+\begin{center}
+	\texttt{\textcolor{blue}{myObject} [ \textcolor{purple}{"aNumber"} ] $\rightarrow$ \textcolor{purple}{3.5}}
+\end{center}
+
+Properties can be added after the object is created by referencing the new property name, and assigning a value to it. 
+
+\codejs{\source{js/objectProperties2.js}}
+
+
+\subsection{Code Exercises}
+
+\begin{enumerate}
+	\item Make an object and assign to a variable with two properties. One property named 'name' with a string value containing your name, and an 'age' property with a number value of your age.
+	
+	\item Make an object and assign to a variable with two properties. An 'information' property that is itself an object structured as in exercise 1, and a 'id' property that has an integer number value (you choose the value of the number).
+\end{enumerate}
+
+\section{Arrays}
+
+\index{Array!index}
+
+Another important data structure is called an array. One can think of an array as a bunch of variables all crammed into a single name. Say we want to store 10 different numbers at a time. Without an array we would have to list out 10 different variable names. But with an array we can simply put them together in a single variable.\\
+
+Lets start with an empty array. An array is started with brackets, and an empty array is two brackets \texttt{[]} with nothing between them.
+
+\codejs{\source{js/emptyArray.js}}
+
+If we wish to start the array with something in it, we simply list those values between the brackets, separated by commas. In this example I simply put in the characters 'a', 'b', 'c', 'd'. Each individual "bin" of the array is called an element of the array. And each element has some value. In this example, the first element of the array has the value 'a'. The second element has the value 'b'.
+
+\begin{center}
+	\texttt{\textcolor{OliveGreen}{var} \textcolor{blue}{myArray} =  [\textcolor{purple}{'a'}, \textcolor{purple}{'b'}, \textcolor{purple}{'c'}, \textcolor{purple}{'d'}];}
+\end{center}
+
+To access an element of an array, you need to specify which element you want, since there could be several. Elements are ordered by a number called an index. The index starts at 0, and increases consecutively by 1 until the last element. The index is placed in square brackets immediately following the name of the variable holding the array, and returns the value of that element.
+
+\begin{center}
+	\texttt{\textcolor{blue}{arrayVariable} [ \textcolor{blue}{index} ] $\rightarrow$ \textcolor{purple}{value}}
+\end{center}
+
+The index can be thought of as the distance from the beginning of the array. If the index is 0, then we are talking about something zero distance away from the beginning, which must be the first element. So, the first element has index 0. In the example, the array variable is named \texttt{myArray}. The first element has a value of 'a', so this piece of code would return a value of 'a'.
+
+\begin{center}
+	\texttt{\textcolor{blue}{myArray} [ \textcolor{purple}{0} ] $\rightarrow$ \textcolor{purple}{'a'} }
+\end{center}
+
+The second element is a distance of 1 away from the beginning, so its index is 1. 
+
+\begin{center}
+	\texttt{\textcolor{blue}{myArray} [ \textcolor{purple}{1} ] $\rightarrow$ \textcolor{purple}{'b'}}
+\end{center}
+
+An array also has a property called \texttt{length} that you can access to know how many elements are in the array. Since the index starts at \texttt{0}, the index of the last element is one less than the length. The array in \texttt{myArray} has four elements, so the length of that array is 4. But the index of the last element is 3 because it is distance 3 away from the beginning of the array. The brackets have to be done last in order of operations, so any arithmetic (+, -, *, /) inside the brackets will be done first, before the index is used to look up the element.
+
+\begin{center}
+	\texttt{\textcolor{blue}{myArray}.\textcolor{blue}{length} $\rightarrow$ \textcolor{purple}{4}}\\ \medskip
+	\texttt{\textcolor{blue}{myArray}.\textcolor{blue}{length} - \textcolor{purple}{1} $\rightarrow$ \textcolor{purple}{3}}\\ \medskip
+	\texttt{\textcolor{blue}{myArray} [ \textcolor{purple}{3} ] $\rightarrow$ \textcolor{purple}{'d'}}\\ \medskip
+	\texttt{\textcolor{blue}{myArray} [ \textcolor{blue}{myArray}.\textcolor{blue}{length} - \textcolor{purple}{1} ] $\rightarrow$ \textcolor{purple}{'d'}}
+\end{center}
+
+Here is an executable example. Try writing and executing some simple code like this to get used to making and accessing an array. What value do you get when you access index of 4, which is one past the end of the array?
+
+\codejs{\source{js/arrayLiteral.js}}
+
+\section{JSON}
+
+\index{JSON}
+
+JSON is a sub-set of the JavaScript language, and stands for JavaScript Object Notation. JSON is not a programming language: it cannot be used to compute anything. It only includes the idea of object, array, number, and string literals. The purpose of JSON is that perhaps you want to store or transmit text-based information around that can easily be incorporated into your program.\\
+
+Since JSON has the same structure as the data in a JavaScript object, importing it is really simple and can be automated. When a JSON file is read, it can be interpreted directly into objects, arrays, numbers and strings which you can reference just like everything else in the language.

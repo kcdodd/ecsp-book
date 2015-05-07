@@ -1,0 +1,178 @@
+\chapter{Computation}
+
+What do we mean by computation? In a very general sense, a computation is a goal that is possible to reach by some number of intermediate steps. You may be familiar with doing computations in math, such as multiplying two numbers. But the idea of computing is much broader than your math class. Any problem that \textit{can} be broken down into specific steps to reach a specific conclusion is called computable. The details of the exactly what steps to take in a computation is called an \textbf{algorithm}. Figuring out how to combine things that you \textit{can} do to accomplish something you can't do yet is the essence of computer science.\\
+
+\section{Sequence of Instructions}
+
+For example, think about how you follow directions when traveling from one location to another. The first time you go somewhere you probably need to either ask someone how to get there, or follow the directions of a GPS device or a map. The ultimate problem is to go from A to B. Directions might come in the form of turning left or right on a particular street, then following that street for some distance, then making another turn, and so on.\\
+
+\index{sequence}
+
+Solving the problem of going from A to B can be broken down into some number of simpler problems. You don't need anyone to explain how to turn left/right or follow a street because you already know how to accomplish those tasks. All you need to know is what order, or sequence, to do them in to get to where you're going.\\
+
+A electrical/mechanical computer starts with a very limited number of instructions that it can understand, and 'knows' how to accomplish. What we have to do is to figure out how to accomplish more complicated actions by breaking them down into a larger number of simpler ones until we are \textit{only} telling the computer those that it can understand.
+
+\begin{center} \imagegraphic[1.0]{mapA.png}\end{center}
+
+Come up with a sequence of instructions to give someone that doesn't have the map. They will start at A, and want to arrive at B. As an example, consider these instructions starting at A. Which location would you arrive at?
+
+\begin{description}
+	\item[] Go north.
+	\item[] Turn right when you reach Market St.
+	\item[] Go several hundred feet then turn right again.
+	\item[] Go down the street and it's on the left.
+\end{description}
+
+Is the set of instructions specific enough to get there? Would the instructions be different if the person didn't know which way was North, or was a poor judge of distance? How can the instructions be altered to be more robust?\\
+
+\section{Instruction Set}
+
+\index{instruction set}
+
+One issue with the problem of giving someone a sequence of instructions is that we need to know a little more about what they know how to do, so that we know what kind of instruction we need to give them, and how specific we need to be.\\
+
+Before we start listing the sequence of instructions, we should write down what instructions we have to work with: the instruction set. Suppose we came up with the following set of instructions to choose from, and using the \# symbol to mean we can use that instruction with any number substituted in for \#.\\
+
+\textbf{Directions Instruction Set}
+\begin{itemize}
+	\item Turn Left.
+	\item Turn Right.
+	\item Go Forward \# feet.
+\end{itemize}
+	
+What would the directions look like now if we could only use some sequence of these instructions? Lets assume the person will start out facing the road, wherever they begin, and let's tell them how to go from A to B using only these instructions. One sequence might be the following.
+
+\begin{description}
+	\item[] Turn Right.
+	\item[] Go Forward 200 feet.
+	\item[] Turn Left.
+	\item[] Go Forward 200 feet.
+	\item[] Turn Right.
+	\item[] Go Forward 100 feet.
+\end{description}
+
+\index{variable}
+
+We could make this more compact by coming up with codes to represent each instruction, along with a definition of what that code means. Instead of using the \# sign to represent any number, I am going to list what is supposed to represent this number with what is called a variable inside parenthesis of the codes. If there is no variable for that instruction, then there is nothing listed inside the parentheses. When the code for instruction is used we can replace the variable with the number we want to use for it.\\
+
+\textbf{Directions Instruction Set Codes}
+\begin{description}
+	\item[L()] : Turn Left.
+	\item[R()] : Turn Right.
+	\item[U()] : Make U-turn.
+	\item[F(x)] : Go Forward x feet.
+\end{description}
+
+Now the sequence of instructions would look like the following.
+
+\begin{description}
+	\item[] R()
+	\item[] F(200)
+	\item[] L()
+	\item[] F(200)
+	\item[] R()
+	\item[] F(100)
+\end{description}
+
+\section{Abstraction}
+
+\index{abstraction}
+
+Think about this. Once they know how to go from A to B, then you don't need to tell you how to get there anymore. Suppose now they need to go to location C. You could tell them to go from A to B first, then give further instructions of how to go from B to C. We can alter the instruction set by defining a new instruction to go from A to B using the codes for the other instructions that they already know.\\
+
+\begin{description}
+	\item[AB()] : go from A to B using the following
+	\begin{description}
+		\item[] R()
+		\item[] F(200)
+		\item[] L()
+		\item[] F(200)
+		\item[] R()
+		\item[] F(100)
+	\end{description}
+\end{description}
+
+Now I can write a sequence of instructions to go from A to C using this new instruction AB(). The details of how to get from A to B are now \textit{abstracted}, which makes writing more complicated directions easier.
+\begin{description}
+	\item[AC()] : go from A to C
+	\begin{description}
+		\item[] AB()
+		\item[] F(100)
+		\item[] L()
+		\item[] F(500)
+	\end{description}
+\end{description}
+
+\section{Conditional Instructions}
+
+So far we have created instructions that are intended to be followed, in order, no matter what. But in practice we know that not everything can be described quite that simply. What use would the instructions be if the road was blocked off for construction? We may not know that ahead of time, so we need to be able to prepare our instructions to handle that possibility.\\
+
+The idea of a condition is that one set of instructions will be followed if the condition is true, but a different set of instructions should be followed if it is false. Here the condition might be, "Can you move forward?". If they can, then they can move forward down the road, but if they can't we need to give alternative instructions of what to do from that point on.\\
+
+We can come up with a codes for following conditional instructions, just like for other instructions. However, instead of the codes telling us where to go in the map, it tells us where to start reading other instruction codes. The IF-ELSE code says that if a condition is true, the instructions immediately following the IF code are followed. But if the condition is false, the instructions immediately following the ELSE code are followed instead.\\
+
+Suppose we give the same instructions as above, but we know that sometimes Broadway St. is sometimes closed to traffic. We can build in a condition that if when the driver gets to Broadway and it's closed, they can go an alternate rout. The condition is "Is Broadway St. open to traffic?". If the answer to that is 'yes', we follow the normal instructions. But if it is 'no', then we follow the instructions under the ELSE code until the ENDIF code is reached. \\
+
+\begin{description}
+	\item[AC()] : go from A to C
+	\begin{description}
+		\item[] AB()
+		\item[] F(100)
+		\item[IF]: Is Broadway St. open to traffic?
+		\begin{description}
+			\item[] L()
+			\item[] F(500)
+		\end{description}
+		\item[ELSE]:
+		\begin{description}
+			\item[] U()
+			\item[] F(200)
+			\item[] R()
+			\item[] F(300)
+			\item[] R()
+			\item[] F(500)
+			\item[] L()
+			\item[] F(200)
+		\end{description}
+		\item[ENDIF]:
+	\end{description}
+\end{description}
+
+\section{Flowchart}
+
+A flowchart is a way of organizing this conditional nature of the directions in a visual way. Here, boxes are the individual directions, and the diamond is the condition which has two possible set of directions. Visualizing the instructions this ways shows that an algorithm itself is like a map, with more than one possible path depending on what is true during any given time through the algorithm. Describing the algorithm using codes or the flowchart are made completely analogous to each other. Flowcharts can be used to plan out an algorithm before implemented with a specific set of codes.\\
+
+\begin{center} \imagegraphic[0.5]{flowchart.png}\end{center}
+
+\section{Iteration}
+
+If a conditional statement results in repeating a previous set of instructions, it is called an iteration. This can be visualized using a flowchart. Suppose instead of having to measure the distance needed to drive after each turn, we want to tell the driver to simply drive until an intersection is reached.\\
+
+We can have a conditional block asking whether or not they are at an intersection. If not, then drive forward some more. If they are, then make the required turn. This will result in what is called a loop. "Are you at an intersection?" serves as the loop condition, which causes the loop to keep repeating until the driver arrives at an intersection. \\
+
+\begin{center} \imagegraphic[0.5]{iteration.png}\end{center}
+
+Perhaps we would like to check to see if they are at an intersection before driving forward, instead of afterward. The main difference is that if the driver is already at an intersection, they can go ahead do the next instruction without having to drive forward (which might cause them to miss the turn).\\
+
+\begin{center} \imagegraphic[0.5]{iteration2.png}\end{center}
+
+\section{Sequence, Condition, Iteration}
+
+Any algorithm can be described using some combination of these three basic control structures. When creating a programming language, we must ensure that these functions are possible to describe and implement within the language so that any algorithm can be written using that language. To make the set of codes for driving directions complete, we really need a way to do iteration. The WHILE code will be used to do this.\\
+
+As long as the condition associated with the WHILE statement is true, the instructions immediately following the while statement are followed, and then the condition is reconsidered. When the condition is false, the instructions under the WHILE statement are no longer followed, and instead the instruction after the ENDWHILE code is followed.\\
+
+The while loop could be used to define a generic 'forward' code. Since we want it to repeat when the driver is not at the intersection, we have to change the question slightly.\\
+
+\begin{description}
+	\item[F()] : go forward until intersection is reached.
+	\begin{description}
+		\item[WHILE]: Are you not at an intersection?
+		\begin{description}
+			\item[] F(100)
+		\end{description}
+		\item[ENDWHILE]:
+	\end{description}
+\end{description}
+
+This is how programming languages start to be developed. Once some basic operations, or instructions, are built in to the language, many other and more complicated operations can be built using them.

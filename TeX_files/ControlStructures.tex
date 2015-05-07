@@ -1,0 +1,76 @@
+\chapter{Control Structures}
+
+To make our code capable representing any computation, certain control structures are required. We need a way of running a particular command conditionally on some other information. And we need a way of executing the same code more than once.
+
+\section{if-else}
+
+Conditional execution in JavaScript is implemented using the if-else structure, or just called an if-statement. To use an if-statement I first need a quantity that reduces to a boolean value: either true or false. This value becomes the condition under which a particular piece of code is executed if it is true. The condition is placed between the set of open and closed parenthesis. Immediately following the parenthesis is the piece of code that will be executed if the condition is true. The code is grouped together using an open-closed set of curly brackets.
+
+\codejs{\source{js/if_true.js}}
+
+I can also specify that something is done if the value is \textit{not} true, which will fall under the \texttt{else} part. Not true is the same as saying false.
+
+\codejs{\source{js/if_nottrue.js}}
+
+Even though the above example is completely valid, it can be simplified since there are no operations done in the top part of the if-else. I can use the logical 'not', \texttt{!}, to negate the boolean values. True becomes false, and false becomes true. This flips the roles of the if-else blocks, and so I can get rid of the 'else' part, while keeping the same logic. That is, this version of the control structure is equivalent to the previous one.
+
+\codejs{\source{js/if_nottrue2.js}}
+
+In the following example, I am testing to see if a particular number is even or odd, and I want it to print something different in each case. To see if a number is even, I used the modulus operator. If the number divided by 2 has a zero remainder, then the modulus will return zero, and I know that 2 is a factor of the number. The \texttt{===} operator returns true if \texttt{myNumber \% 2} is zero, and false if it is not zero. You should always give an if-statement a boolean value, and so comparison operators can be used to convert numbers to booleans. The comparison has the lowest order of operations, and so it will be done last.\\
+
+\codejs{\source{js/odd.js}}
+
+All of the operations together, \texttt{myNumber \% 2 === 0}, becomes the condition of the if-statement. Only the first thing following the condition is associated with the 'true' case. The piece of code immediately following the else is not executed if the condition is true, but it is if the condition is false. If you wish to have multiple commands associated with the condition, curly braces are used to group the code together.\\
+
+\codejs{\source{js/odd_2.js}}
+
+Here I not only print out whether the number is even, but divide it by two if it is even. If it is odd, I subtract 1 from the number before dividing so that the result is still an integer. If I had not put curly braces around each set of code, then the interpreter would not have understood that I wanted the second statement in each block to only be executed for that condition.\\
+
+\section{nested if-else}
+
+Any code can be placed in an if-statement, including more if-statements. A common problem is that a variable could have several possible values, and something different should happen for each value.
+
+\codejs{\source{js/hello_foo.js}}
+
+The first if-statement checks for one value. If it is that value it does the thing it should for it. If it's not that value, it goes to the \texttt{else} part. The only thing in the else of the first if-statement is another if-statement that checks for another value. If it's the second value it does that thing, but if it's not it goes to the else of the second if-statement.\\
+
+However, any structure of nested if-else statements is valid.
+
+\codejs{\source{js/ifrainy.js}}
+
+What will be printed above given the values of \texttt{daylight}, \texttt{clouds}, and \texttt{rain}? Does the value of \texttt{lights} affect what's printed, or when would it? What would the values have to be in order for them to decide to "go swimming"?\\
+
+Certain logic can sometimes be expressed in more that one way. Boolean algebra can be used to rewrite if-else structures into a series of equivalent  if-statements using the logical operators.
+
+\codejs{\source{js/ifrainy2.js}}
+
+While this is logically equivalent to the first structure, it checks and rechecks the same values at each if-statement. It is also harder to see which scenarios, or cases, have a prescribed activity. And what if a \texttt{!} was accidentally omitted? While the choice of which types of structures to use is up to you, your choice should be guided by both the purpose of the structure, and how easy it is to understand and debug if it doesn't work as expected.\\
+
+Let's look at exactly how an if-else can be re-written with logical operators, or vice-versa. A single 'and' operation can be thought of as a nested if-else statement where both conditions have to be true for the result to be true. If either condition is false (or both), the result is false. The two if-else structures in the following example are equivalent.
+
+\codejs{\source{js/and.js}}
+
+For an 'or' operation, if at least one of the conditions is true (or both), then the result is true. This can be represented by a series of if-else statements. The only time the result is false is if both conditions are false.
+
+\codejs{\source{js/or.js}}
+
+These kind of examples also help to explain what is called short-circuit behavior in boolean operators. Take a look back at the 'and' example. If the value of \texttt{a} was false, then the first if-else structure would never even check the value \texttt{b} because it would have immediately gone to the else part. The same is true with the \texttt{\&\&} operator. If \texttt{a} is false, then the value of \texttt{b} doesn't matter and so it doesn't check it. For the \texttt{||} operator, if the first value is true, then the value of the second doesn't matter since only one of them has to be true for the result to be true.\\
+
+It may seem like we don't need to worry about short circuit behavior as programmers, since why should we care if it checks a value or not. For the most part it doesn't matter for writing programs. However, if you make a function call in the condition of an if-statement, short-circuit behavior could matter if that function call does something in addition to being a condition.
+
+\section{while}
+
+The iteration control structure has to be tied to a conditional structure, so that it knows when to stop. A \texttt{while} loop initially behaves similarly to an if-statement. The condition is placed in the parenthesis immediately following the \texttt{while} keyword. If the condition is false, then execution skips the code in the braces. If the condition is true, it executes the code in the braces, but after it's done it re-evaluates the condition. It continues to execute the code in the braces, and evaluates the condition, until the condition is false.\\
+
+\codejs{\source{js/countto5.js}}
+
+
+In the above example, the variable \texttt{x} is called the loop control variable. Its initial value of \texttt{0} causes the condition \texttt{x < 5} to be true, and so it then executes the code in the braces. The only thing it does is to add 1 to the variable. It then checks the condition again, which is still true. It keeps repeating this process adding 1 to \texttt{x} each time, until it gets to 5. When \texttt{x} is 5, the condition becomes false since 5 is not less than 5. The loop executed the code a total of 5 times before it stopped.\\
+
+
+A loop will continue to repeat itself for as long as the condition is true. If nothing occurs to cause the condition to be false, the loop will run for as long as the program is capable: this is called an infinite loop.\\
+
+\codejs{\source{js/infiniteloop.js}}
+
+The above example will run forever, even though it might look very similar to the first example. The issue is that the variable being changed inside the loop is different than the variable being used in the condition. \texttt{x < 5} will always be true, and thus it will loop forever.\\
+
