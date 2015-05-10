@@ -190,6 +190,24 @@ Bigger numbers of course require more bytes to be represented. We will deal with
 
 \section{Digital Text}
 
+The basic idea of storing or sending digital text comes straight from how type-writers functioned. A piece of text is broken up in to a sequence of individual blocks. A page is broken into a sequence of lines. And each line is broken in to a sequence of characters.\\
+
+The available characters must be pre-determined before the text can be compiled. For a type-writer, this meant creating a block for each character. This was efficient because the same characters could be reused to form different words and pages.\\
+
+\begin{center}\imagegraphic[0.75]{text.png}\end{center}
+
+For a digital text, the available characters are determined first. Basically, a number, or code, is assigned for each separate character we wish to be able to print. Capital letters are separate characters than lower case. A space is a character. More characters are needed for punctuation and other symbols like \$, \&, and any other symbol we wish to be able to represent.\\
+
+We don't want all the text to be on the same line, and so there needs to be a way to tell where the text appears in the vertical direction. Just as there is a character to represent a space, which basically means moving over a certain amount without printing anything, there is a character to represent the action of going to a new line of text without printing anything. This is called the new-line character. Even though we can't 'see' the newline character on a page of text, just like the space character, we can its result. A new-line is usually what happens when you hit 'enter' on your keyboard when typing.\\
+
+Now what numbers, specifically, represent each character? For example, what might be the number for the letter 'A'? Well, it really depends. In some sense the numbers chosen are arbitrary. However, there are certain standards that have been established.\\
+
+If you wish to represent a single character by 8 bits (an 8 bit number), then you would probably use the ASCII standard. In ASCII, the letter 'A' is number 65 (in decimal). The letter 'a' is 97. A space is 32, and a new line is 10. Since there are 8 bits to work with, there are 256 possible characters, although not all the numbers have a particular meaning specified.\\
+
+The ASCII standard is somewhat English centric. Many languages require additional characters. The Unicode standards are a way to add all the possible characters needed for any language to be represented, and itself varies in how many bits are required to represent individual characters. There is an 8-bit version which is slowly replacing ASCII.
+
+
+
 \section{Digital Audio and Visual}
 
 \begin{center}\imagegraphic[0.25]{J1.png}\imagegraphic[0.25]{J2.png}\imagegraphic[0.25]{J3.png}\end{center}

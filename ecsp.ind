@@ -1,75 +1,9 @@
 \begin{theindex}
 
-  \item abstraction, 19
-  \item and, 34
-  \item arguments of a function, 38
-  \item Array
-    \subitem index, 50
-
-  \indexspace
-
   \item binary tree, 3
 
   \indexspace
 
-  \item closure, 45, 54
-  \item constructor, 53
-
-  \indexspace
-
-  \item exceptions, 43
-
-  \indexspace
-
-  \item for loop, 37
-  \item function, 38
-  \item function scope, 40
-
-  \indexspace
-
-  \item if, 29
-  \item instruction set, 18
-
-  \indexspace
-
-  \item JSON, 52
-
-  \indexspace
-
   \item Morse code, 5
-
-  \indexspace
-
-  \item new, 53
-
-  \indexspace
-
-  \item Object
-    \subitem empty object, 48
-    \subitem property, 48
-  \item or, 34
-
-  \indexspace
-
-  \item recursion, 42
-  \item return statement, 39
-
-  \indexspace
-
-  \item sequence, 16
-  \item side effects of a function, 45
-
-  \indexspace
-
-  \item throw statement, 43
-  \item try-catch, 44
-
-  \indexspace
-
-  \item variable, 18
-
-  \indexspace
-
-  \item while loop, 35
 
 \end{theindex}
