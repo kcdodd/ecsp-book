@@ -1,12 +1,18 @@
 # ecsp-book
 Book for essentials of computer science and computer science principles, using javascript as a programming language.
 
-The target audience for this book is a high school
-level student who has no prior exposure to computer science. The goal is to build
-the mental foundations for why and how computing works, inlcuding history as a supporting
-tool. History is not just about the "what" happens, but also about they "why" of
-how things are and provides context and a way of thinking about the concepts, since
-this is how those who founded the science worked with them.
+The target audience for this book is a student who has no prior exposure to computer science, including early high
+school levels. My goal is to have portions of the book which are not platform specific covering general concepts used
+in computer science. Then portions of the book which use a specific platform to implement
+algorithms and applications of those ideas, as well as getting the student to a point
+that they can make something they enjoy the results of.
+
+Platform specifics will include:
+JavaScript - programming
+HTML/CSS - visual formatting
+[GitHub](github.com) - file revision management
+[Inkscape](inkscape.org) and [GIMP](gimp.org) - image creation and manipulation
+[Node.js](nodejs.org) - applications and server/client
 
 ### Dependencies to compile the book
 - LaTeX (EG [TeX Live](https://www.tug.org/texlive/))

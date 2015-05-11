@@ -1,5 +1,7 @@
 \chapter{Information}
 
+\epigraph{The information of a message can be defined as the 'minimum number of binary decisions which enable the receiver to construct the message, on the basis of the data already available to him.'}{Dennis Gabor}
+
 We use the word information frequently. Think of an example that you think contains information. Perhaps you thought of a book or a website. Can you identify what exactly about these things contain information, or how you might quantify an amount of information it contains?
 
 \section{20 Questions}
@@ -60,6 +62,8 @@ What we are doing is eliminating groups of letters at a time, and we are free to
 The real reason these kind of questions work is that every object has some defining properties that can be used to differentiate it from all other objects, and the premise of the game is that any property can be reduced to a 'yes' or 'no' question. We can think of each object as either having a property, or not having it, which gives the answer to any possible question. How we differentiate things from each other is the essence of information. If we can't tell any difference, then there is no information.\\
 
 \section{Communication}
+
+\epigraph{...the whole surface of this country would be channelled for those nerves which are to diffuse, with the speed of thought, a knowledge of all that is occurring throughout the land, making, in fact, one neighborhood of the whole country. }{Samuel F. B. Morse}
 
 Information is defined by being able to rule out alternatives. A statement contains no information in itself unless we also know how the statement could have been different. Saying that it is raining outside only contains information because we have alternatives to it raining, such as a clear sky or snowing. The alternatives don't have to necessarily be logical or possible in reality. \\
 
@@ -149,6 +153,8 @@ However, we don't have to worry about \textit{how} the information is physically
 
 \section{Binary Numbers}
 
+\epigraph{There are 10 types of people in the world. Those who know binary, and those who don't.}{\textit{unknown}}
+
 The binary number system can be analyzed in several different ways. In one view, the concept of a particular number exists apart from the way we write it, and decimal versus binary are just two ways of doing it. The number 5 is a concept apart from the symbol '5'. So is the number '6'. But just like with letters, we need a way to tell which number we're talking about. One way to do it is to have a separate symbol for every number, but that is not practical.\\
 
 There is no single way to represent a number, and in fact Morse code has its own way of representing numbers. But we will use a standard representation that closely resembles the decimal system that is useful for doing arithmetic. Instead of basing a digit on a power of ten ($1=10^0, 10=10^0, 100=10^2, 1,000=10^3...$), we base it on a power of 2 ($1=2^0, 2=2^1, 4=2^2, 8=2^3, 16=2^4...$). In binary there are only two symbols: zero (0) and one (1), and represent the binary digits (bits). This is also called base-2, as opposed to base-10, since the 'base' of the exponent used is 2.\\
@@ -186,13 +192,43 @@ While individual bits carry information, one can see that quite a few bits are r
 
 If we are limited to 1 byte, then a binary number has to have exactly 8 digits. The number 0 would be 00000000, the number 1 would be 00000001, and so on. The most significant bit has a value of $2^7 = 128$, and so the byte 10000000 in binary is equivalent to the number 128. If all the bits are set, 11111111 has a value of $2^7 + 2^6 + 2^5 + 2^4 + 2^3 + 2^2 + 2^1 + 2^0 = 255$. So a byte can have integer values from 0 up to 255.\\
 
-Bigger numbers of course require more bytes to be represented. We will deal with how to represent negative numbers and fractions in a later chapter. However, the basic idea is that we are limited by how many possibilities can be represented.
+Numbers bigger than 255 of course require more bits to be represented. We will deal with how to represent negative numbers and fractions in a later chapter. However, the basic idea is that we are limited by how many possibilities can be represented.
+
+\section{Hexadecimal Numbers}
+
+The name might sound complicated, but it just means base-16. hex (6) + decimal (10) = hexadecimal (16). The idea of using hexadecimal is that binary is just unwieldy to write, and decimal is not a power of 2 which makes converting to and from binary unwieldy as well. Base 16 is a compromise because we can write large numbers more compactly, and also be able to convert to binary very easily.\\
+
+Since this is base 16, each digit can have a value from 0 up to 15, in a similar fashion as base 10 can have a digit from 0 up to 9. But, if we want to only write 1 character per digit, we have a problem because we don't have a single symbol for 15 (or 14, 13, 12, 11, or 10). We need 16 distinct symbols. The solution is to use letters as digits.\\
+
+This might seem strange at first, but in hexadecimal the letter 'a' is actually the number 10. b=11, c=12, d=13, e=14, and f=15. A hexadecimal digit can also be represented by up to 4 bits (or exactly 4 bits if you pad the beginning with zeros).
+
+\begin{center}
+	\begin{tabular}{c | c | c}
+		decimal & hexadecimal & binary \\
+		00 & 0 & 0000 \\
+		01 & 1 & 0001 \\
+		02 & 2 & 0010 \\
+		03 & 3 & 0011 \\
+		04 & 4 & 0100 \\
+		05 & 5 & 0101 \\
+		06 & 6 & 0110 \\
+		07 & 7 & 0111 \\
+		08 & 8 & 1000 \\
+		09 & 9 & 1001 \\
+		10 & A & 1010 \\
+		11 & B & 1011 \\
+		12 & C & 1100 \\
+		13 & D & 1101 \\
+		14 & E & 1110 \\
+		15 & F & 1111 \\
+	\end{tabular}
+\end{center}
+
+To convert from binary to hexadecimal, you just divide the bits into groups of four, and whatever that number is is the hexadecimal digit for that group. Since a byte is 8 bits, a byte can be written as 2 groups of 4, or two hexadecimal digits: \(11010110_{bin} \rightarrow 1101\quad0110 \rightarrow D6_{hex} \rightarrow 214_{dec}\).
 
 \section{Digital Text}
 
-The basic idea of storing or sending digital text comes straight from how type-writers functioned. A piece of text is broken up in to a sequence of individual blocks. A page is broken into a sequence of lines. And each line is broken in to a sequence of characters.\\
-
-The available characters must be pre-determined before the text can be compiled. For a type-writer, this meant creating a block for each character. This was efficient because the same characters could be reused to form different words and pages.\\
+We've already looked at one method of sending digital text: Morse code. A piece of text is broken up in to a sequence of individual blocks, and somehow the content of that block is specified by a code. A page is broken into a sequence of lines. And each line is broken in to a sequence of characters.\\
 
 \begin{center}\imagegraphic[0.75]{text.png}\end{center}
 
@@ -200,17 +236,53 @@ For a digital text, the available characters are determined first. Basically, a 
 
 We don't want all the text to be on the same line, and so there needs to be a way to tell where the text appears in the vertical direction. Just as there is a character to represent a space, which basically means moving over a certain amount without printing anything, there is a character to represent the action of going to a new line of text without printing anything. This is called the new-line character. Even though we can't 'see' the newline character on a page of text, just like the space character, we can its result. A new-line is usually what happens when you hit 'enter' on your keyboard when typing.\\
 
-Now what numbers, specifically, represent each character? For example, what might be the number for the letter 'A'? Well, it really depends. In some sense the numbers chosen are arbitrary. However, there are certain standards that have been established.\\
+Instead of sending dots and dashes, the codes are binary numbers, since our hardware is built to be able to store and send any sequence of bits. Now what numbers, specifically, represent each character? For example, what might be the number for the letter 'A'? Well, it really depends. In some sense the numbers chosen are arbitrary. However, there are certain standards that have been established.\\
 
-If you wish to represent a single character by 8 bits (an 8 bit number), then you would probably use the ASCII standard. In ASCII, the letter 'A' is number 65 (in decimal). The letter 'a' is 97. A space is 32, and a new line is 10. Since there are 8 bits to work with, there are 256 possible characters, although not all the numbers have a particular meaning specified.\\
+If you wish to represent a single character by 8 bits (an 8 bit number), then one of the first standards was the ASCII standard. In ASCII, the letter 'A' is number 65 (in decimal). The letter 'a' is 97. A space is 32, and a new line is 10. Since there are 8 bits to work with, there are 256 possible characters.\\
 
-The ASCII standard is somewhat English centric. Many languages require additional characters. The Unicode standards are a way to add all the possible characters needed for any language to be represented, and itself varies in how many bits are required to represent individual characters. There is an 8-bit version which is slowly replacing ASCII.
+The ASCII standard is somewhat language specific. Many languages require additional characters. The Unicode standard is a way to add more possible characters needed for other languages and symbols to be written, and itself varies in how many bits are required to represent individual characters. UTF-8 is a variable length 8-bit version which is replacing ASCII. The first 128 characters of UTF-8 are exactly the same as ASCII. When the above message "Have a good day!" is encoded in UTF-8, the result is the following hexadecimal numeric values of the characters.\\
+
+\begin{center}\imagegraphic[0.75]{text_code.png}\end{center}
+
+The message is composed of a total of 16 characters, each requiring 8 bits, or 1 byte, to store. To send this message is then 16 bytes of information. Converted to a string of bits, the above message would look like the following, since each character has to be 8 bits:\\
+
+\begin{verbatim}
+01000100011000010111011001100101001000000110000100100000
+01100111011011110110111101100100001000000110010001100001 
+0111100100100001
+\end{verbatim}
+
+The numeric value of a Unicode character must be found in a lookup table. As a shorthand, a format U+\#\#\#\# (where \# are hexadecimal digits) is used to say "this is a Unicode character with a value of \#\#\#\#". So, the letter 'H' is character U+0044. A space is U+0020, and so on. Remember, this is hexadecimal, not decimal: \(20_{hex} = 32_{dec}\).\\
+
+Notice there are 4 reserved digits (2 bytes). Just doing the math, and knowing these are hexadecimal digits, that gives \(16^4 = 65,536\) possibilities here. However, this is just one sub-set of the total Unicode characters. There are currently a total 17 sets, which specifies a total of \(17 \times 65,536 = 1,114,112\) different characters.\\
+
+\section{Digital Graphics}
+
+\epigraph{Life isn't always \#000000 and \#FFFFFF. It's a million areas of \#888888.}{\textit{unknown}}
+
+The first step to digitize something is to decide how to break it into a discrete number of elements in a systematic way, where each element can take on one of multiple possible values. Then to assign a code to each possible value an element can have. The codes are what are stored or transmitted. To re-construct the original thing requires knowing the meaning of the codes, and effectively running the deconstruction process in reverse. There are two predominant general methods of storing a digital image: raster, and vector.\\
+
+A raster image is probably the most familiar to you. That is the kind of image displayed on a TV or computer monitor. The idea is to divide a 2-dimensional area into a set of rows and columns which defines a grid of small areas, called pixels. If you look close enough at the screen you can probably make out the individual pixels, each with its own color. The more pixels used, the smoother the image can appear. At some point our eyes blend the individual pixels and colors together into a single image.\\
+
+The following are example raster images of the letter 'J', where each pixel is either black or white. Remember that this is different than sending digital text letter 'J', which only required 1 byte of information. A raster image has to specify the value of every pixel against all the values it \textit{could} be. Thus, a raster image can describe not just this shape, or font, of J, but any other shape that can fit in the same area.\\
+
+\begin{center}\imagegraphic[0.25]{J1.png}\imagegraphic[0.25]{J2.png}\imagegraphic[0.32]{J3.png}\end{center}
+
+The first image on the left has \(20\times21=420\) pixels. Since there are only two colors, we could encode each pixel with a single bit (0 for black and 1 for white), and so would take 420 bits to store. The next image has twice the resolution, \(40\times42=1680 \) pixels, which makes the curves slightly smoother, but requites 4 times as much information to store. The final image has many times the resolution, and should look fairly smooth, even though if you zoom in you can still see the individual pixels.\\
+
+There are many different image formats which store this type of image. The general idea is to store a numerical value for each pixel which can be translated in to a color. The simplest color scheme to understand is the gray scale, like a black and white photo.\\
+
+\begin{center}\imagegraphic[0.75]{picture_bw.png}\end{center}
+
+\begin{center}\imagegraphic[0.75]{picture_bw_building.png}\end{center}
+
+So, one problem might be how to turn a color in to a number.\\
+
+\begin{center}\imagegraphic[0.75]{picture_color.png}\end{center}
 
 
+\begin{center}\imagegraphic[0.75]{picture_color_building.png}\end{center}
 
-\section{Digital Audio and Visual}
-
-\begin{center}\imagegraphic[0.25]{J1.png}\imagegraphic[0.25]{J2.png}\imagegraphic[0.25]{J3.png}\end{center}
 
 
 \begin{center}\imagegraphic[0.25]{gray.png}\end{center}
@@ -220,11 +292,24 @@ The ASCII standard is somewhat English centric. Many languages require additiona
 \begin{center}\imagegraphic[0.25]{blue32.png}\end{center}
 \begin{center}\imagegraphic[0.50]{additive.png}\end{center}
 
+\section{Digital Audio}
+
+\epigraph{Art is how we decorate space; music is how we decorate time.}{unknown}
+
+Audio was first digitized in the development of the telephone network. Before they worked digitally, telephones operated on an analog system. The sound of the voice of a person was translated into a voltage by a microphone, and those voltages were carried directly by wires over large distances to a another telephone. The problem was that over large distances the signals became distorted. This is different than just becoming weaker, since amplifiers could be used to boost the amplitude, or loudness, of the signal.\\
+
+Distortion is where the shape of the wave itself changes, and so the sound coming out of one telephone would be different than what went into the other one, even though it had been amplified to be just as loud. Distortion is caused by several factors, which are not important at this point. What is important is how this problem was solved.\\
+
+
+
+
 \section{Error Correction}
 
 \begin{center}\imagegraphic[0.25]{J1err.png}\end{center}
 
 \section{Encryption}
+
+\epigraph{Any one who considers arithmetical methods of producing random digits is, of course, in a state of sin.}{\textit{John von Neumann}}
 
 \section{Exercises}
 
