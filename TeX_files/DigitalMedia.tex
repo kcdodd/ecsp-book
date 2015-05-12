@@ -1,0 +1,166 @@
+\chapter{Digital Media}
+
+\section{Text}
+
+We've already looked at one method of sending digital text: Morse code. A piece of text is broken up in to a sequence of individual blocks, and somehow the content of that block is specified by a code. A page is broken into a sequence of lines. And each line is broken in to a sequence of characters.\\
+
+\begin{center}\imagegraphic[0.75]{text.png}\end{center}
+
+For a digital text, the available characters are determined first. Basically, a number, or code, is assigned for each separate character we wish to be able to print. Capital letters are separate characters than lower case. A space is a character. More characters are needed for punctuation and other symbols like \$, \&, and any other symbol we wish to be able to represent.\\
+
+We don't want all the text to be on the same line, and so there needs to be a way to tell where the text appears in the vertical direction. Just as there is a character to represent a space, which basically means moving over a certain amount without printing anything, there is a character to represent the action of going to a new line of text without printing anything. This is called the new-line character. Even though we can't 'see' the newline character on a page of text, just like the space character, we can its result. A new-line is usually what happens when you hit 'enter' on your keyboard when typing.\\
+
+Instead of sending dots and dashes, the codes are binary numbers, since our hardware is built to be able to store and send any sequence of bits. Now what numbers, specifically, represent each character? For example, what might be the number for the letter 'A'? Well, it really depends. In some sense the numbers chosen are arbitrary. However, there are certain standards that have been established.\\
+
+If you wish to represent a single character by 8 bits (an 8 bit number), then one of the first standards was the ASCII standard. In ASCII, the letter 'A' is number 65 (in decimal). The letter 'a' is 97. A space is 32, and a new line is 10. Since there are 8 bits to work with, there are 256 possible characters.\\
+
+The ASCII standard is somewhat language specific. Many languages require additional characters. The Unicode standard is a way to add more possible characters needed for other languages and symbols to be written, and itself varies in how many bits are required to represent individual characters. UTF-8 is a variable length 8-bit version which is replacing ASCII. The first 128 characters of UTF-8 are exactly the same as ASCII. When the above message "Have a good day!" is encoded in UTF-8, the result is the following hexadecimal numeric values of the characters.\\
+
+\begin{center}\imagegraphic[0.75]{text_code.png}\end{center}
+
+The message is composed of a total of 16 characters, each requiring 8 bits, or 1 byte, to store. To send this message is then 16 bytes of information. Converted to a string of bits, the above message would look like the following, since each character has to be 8 bits:\\
+
+\begin{verbatim}
+01000100011000010111011001100101001000000110000100100000
+01100111011011110110111101100100001000000110010001100001 
+0111100100100001
+\end{verbatim}
+
+The numeric value of a Unicode character must be found in a lookup table. As a shorthand, a format U+\#\#\#\# (where \# are hexadecimal digits) is used to say "this is a Unicode character with a value of \#\#\#\#". So, the letter 'H' is character U+0044. A space is U+0020, and so on. Remember, this is hexadecimal, not decimal: \(20_{hex} = 32_{dec}\).\\
+
+Notice there are 4 reserved digits (2 bytes). Just doing the math, and knowing these are hexadecimal digits, that gives \(16^4 = 65,536\) possibilities here. However, this is just one sub-set of the total Unicode characters. There are currently a total 17 sets, which specifies a total of \(17 \times 65,536 = 1,114,112\) different characters.\\
+
+\section{Raster Graphics}
+
+\epigraph{Life isn't always \#000000 and \#FFFFFF. It's a million areas of \#888888.}{\textit{unknown}}
+
+The first step to digitize something is to decide how to break it into a discrete number of elements in a systematic way, where each element can take on one of multiple possible values. Then to assign a code to each possible value an element can have. The codes are what are stored or transmitted. To re-construct the original thing requires knowing the meaning of the codes, and effectively running the deconstruction process in reverse. There are two predominant general methods of storing a digital image: raster, and vector.\\
+
+A raster image is probably the most familiar to you. That is the kind of image displayed on a TV or computer monitor. The idea is to divide a 2-dimensional area into a set of rows and columns which defines a grid of small areas, called pixels. If you look close enough at the screen you can probably make out the individual pixels, each with its own color. The more pixels used, the smoother the image can appear. At some point our eyes blend the individual pixels and colors together into a single image.\\
+
+The following are example raster images of the letter 'J', where each pixel is either black or white. Remember that this is different than sending digital text letter 'J', which only required 1 byte of information. A raster image has to specify the value of every pixel against all the values it \textit{could} be. Thus, a raster image can describe not just this shape, or font, of J, but any other shape that can fit in the same area. The three versions use more pixels (more rows and columns), increasing resolution and making a smoother looking image.\\
+
+\begin{center}\imagegraphic[0.25]{J1.png}\imagegraphic[0.25]{J2.png}\imagegraphic[0.32]{J3.png}\end{center}
+
+First lets look at how the pixel values might be stored. So that I can write out all of the values, I'm going to stick with a 5x5 grid, which would be 25 pixels. And to start out, I will leave all of the squares filled with white. This grid lines are just for guidance to show where the pixels are, and aren't part of the actual picture.\\
+
+
+\begin{center}\imagegraphic[0.25]{5x5.png}\end{center}
+
+I'm going to write the bit values on a single line, but group them by rows. I'm using a single bit per pixel, and the bit 1 to mean white.\\
+
+\begin{verbatim}
+11111 11111 11111 11111 11111
+\end{verbatim}
+
+Now I've filled in one of the pixels with black. This will change the value of a single bit. Which bit? Let me write out all the bits again with the change. It's in the 4th row, 2nd column, and so I go to the 4th group of bits, and go to the 2nd bit in that group. I change it from a 1 to a 0, meaning that it's black instead of white.\\
+
+\begin{center}\imagegraphic[0.25]{5x5_1.png}\end{center}
+
+\begin{verbatim}
+11111 11111 11111 10111 11111
+\end{verbatim}
+
+Now I'm going to try to draw a face. I don't have very many pixels to work with, so you'll have to use your imagination. I'll also give the pixel's bit values.
+
+\begin{center}\imagegraphic[0.25]{5x5_face.png}\end{center}
+
+\begin{verbatim}
+11111 10101 11111 10001 11111
+\end{verbatim}
+
+So, just to recount what happened, the first 5 bits map to the first row of the image. All first 5 bits are 1s, so all the first row is white. The next group of bits is 10101, which maps to the second row. The first bit on the second group is 1, so the first pixel on the second row is white. The next bit is 0, so the next pixel is black. Then white, then black, then white again which finished the second row. And so on for the 3rd, 4th, and 5th rows.\\
+
+The process will work in reverse as well. If we're given the bits (along with how wide each row is), we can reconstruct the image. Now take the following bits and figure out what the image is by drawing a 5x5 grid and shading in the pixels that have a 0.
+
+\begin{verbatim}
+11111 10101 11111 01110 10001
+\end{verbatim}
+
+In these examples I only used 1 bit per pixel, which meant it could only be one of two colors (black, or white in this case). But if I use several bits per pixel, there are many more possibilities for each pixel to have different colors. If I used 3 bits for each pixel, that would give \(2^3 = 8\) possibilities. I might use a color code like the following, where each 3-bit binary number mapped to an increasing shade of gray:
+
+\begin{center}\imagegraphic[0.5]{gray.png}\end{center}
+
+Suppose I came up with the following 5x5 image using the 8 shades. When I write the bits out for the image, each pixel is now 3 bits, which means each row takes up 15 bits (\(3\times5\)), and 75 bits total.
+
+\begin{center}\imagegraphic[0.25]{5x5_gradient.png}\end{center}
+
+I'm adding spaces in the bits just to make the groupings more obvious. Just keep in mind that when they are stored or transmitted, the bits are a continuous stream.
+
+\begin{verbatim}
+111 000 000 000 000
+111 000 001 010 000   
+111 000 000 011 000   
+111 110 101 100 000   
+000 000 000 000 000
+\end{verbatim}
+
+With more bits per pixel, comes more possibilities. Since a computer is built to work with bytes, and a byte is 8 bits, a pixel is usually no less than 8 bits. That means for a black and white image there are 256 shades to work with, which is usually enough for a human to not be able to perceive the jumps between shades.\\
+
+\begin{center}\imagegraphic[0.5]{gray32.png}\end{center}
+
+Of course we have gone beyond black and white. So how are full color images stored? This goes back to the basics in art class. You might remember that given a few primary colors, any other color can be created if you mix them in just the right way. And there are two types of color mixing: additive, and subtractive.\\
+
+Computer graphics uses additive color mixing because of how the displays are constructed. You can see something on the computer monitor, or TV, because it is emitting light. Essentially each pixel is really three different pixels. If you could look closely, you would see a red pixel, and green pixel, and a blue pixel packed right next to each other. If the red pixel is made brighter, it can only add more red light. The brightest light is when all three are turned on, making white light. These are the primary colors for additive mixing, and is called the RGB color scheme (or red, green, blue).\\
+
+\begin{center}\imagegraphic[0.50]{additive.png}\end{center}
+
+Just as with a gray scale, each color is represented by an 8-bit number, and so each color, for each pixel, has 256 possibilities: from black (off), all the way up to fully on for that color.\\
+
+\begin{center}red\\ \imagegraphic[0.5]{red32.png}\end{center}
+\begin{center}green\\ \imagegraphic[0.5]{green32.png}\end{center}
+\begin{center}blue\\ \imagegraphic[0.5]{blue32.png}\end{center}
+
+
+There is no gray pixel. Shades of gray are made by adding equal parts of each color. However, since they have to be equal, there are still only 256 possible shades of gray, since there are only 256 shades of each color.\\
+
+If the colors are added in non-equal parts, many other colors appear. There are a total of \(256\times256\times256 = 16,777,216 \) possible different colors. In many web-based applications, the RGB values are specified by the literal bit values. This is where hexadecimal numbers come in handy so that we don't have to write out all the bits. Since each color takes 8 bits, that is the same as 2 hexadecimal digits. There are three colors, and so we only need 6 hexadecimal digits to specify a color. The first 2 digits are for red, the next 2 digits are for green, and then blue.\\
+
+For example, to say red would be \#FF0000, since we want red but not green or blue. Remember that in hex, FF is the same as 11111111 in binary. The \# sign comes from historical reasons to mean "rgb color specified by hexadecimal number".\\
+
+\#00FF00 would be green, and \#0000FF would be blue. To make yellow you combine red and green (but not blue), and so yellow would be \#FFFF00. Since magenta is made by combining blue and red, it would be \#FF00FF. Which color would be \#00FFFF? Well, the first 2 digits are zero so you know there's no red. The rest of the digits are F, which means it has full green and blue. Blue and green make the color cyan.\\
+
+There is often a 4th "color" (or channel) added to the mix, called alpha. What this cryptic name basically represents is how opaque the color is. If something is not completely opaque, then you can see stuff behind it like a pane of colored glass. If it is omitted then it is assumed to be completely opaque. If it is included then it appears as a 4th set of hex numbers, where 00 would mean completely transparent, and FF means completely opaque. For example, \#FF0000FF would be red, the same as \#FF0000. But \#FF000077 would mean red that is half-way transparent (since 7 is about halfway to 15, or F in hex).\\
+
+All four channels together would take up \(8\times 4 = 32 \) bits, and so this is called a 32 bit color. If the alpha is ignored, that's 24 bits per pixel. Most graphics you see are using either 24 bit or 32 bit colors.  So, if you have an image that is 1280 by 720, a total of \(1280\times720\times24 = 22,118,400\) bits, or 2,764,800 bytes, are required to store the entire image.\\
+
+\section{Compression}
+
+\section{Vector Graphics}
+
+Another method of storing an image is called vector graphics. The idea of vector graphics is not to divide the image area in to pixels, storing the color of each pixel, but to divide it in to the primitive shapes that exist in the image such as lines, curves, circles, and rectangles. A vector graphics image is stored independent of the resolution that it will be viewed.\\
+
+There is no universal way of storing shapes. Basically, a shape has to be defined by some function that itself may or may not be stored in the image data. What must be stored are parameters that allow the function to define the shape so that it can be displayed. At the very least, there needs to be a way to determine where the shape is and is not, and also what color it is at different locations.\\
+
+When a vector graphic is displayed on a monitor that is made of pixels, the image is rasterized. It is converted to a raster image made up of pixels. The color of each resulting pixel is determined by what is "under" that pixel, and the color of the thing that is under it.\\
+
+A simple example of how this might work is to store a solid color rectangle. We need to know the position of the rectangle, how long each side of the rectangle is, how the rectangle is oriented, and what color it is. When the image is rasterized, a pixel looks to see if it is 'inside' the rectangle based on the position, size, and orientation. If it is, then the pixel is set to the color of the rectangle. If its not, then its color is set to whatever is the 'background' color. The edges of the shape can have special functions to gradually shade the colors to try to deal with the 'jaggies' caused bu the discrete pixels.
+
+\begin{center}
+	
+	\begin{tabular}{c c}
+		square as vector graphic & 20x20 rasterized image \\
+		\imagegraphic[0.5]{vector_square.png} & \imagegraphic[0.5]{raster_square.png}\\
+	\end{tabular}
+		
+\end{center}
+
+A useful application of vector graphics is in Fonts and type-setting. Instead of storing a raster image of each letter, it's better to simply store the outline of the letter as a series of curves. Then, when the letter is displayed or printed it is rasterized based on the resolution and size that is desired. That is the basis of the TrueType font system. Letters and words can be made larger or smaller without worrying about 'jaggies' appearing due to the limited resolution of an original image of the letter.
+
+\section{Audio}
+
+\epigraph{Art is how we decorate space; music is how we decorate time.}{unknown}
+
+Audio was first digitized in the development of the telephone network. Before they worked digitally, telephones operated on an analog system. The sound of the voice of a person was translated into a voltage by a microphone, and those voltages were carried directly by wires over large distances to a another telephone. The problem was that over large distances the signals became distorted. This is different than just becoming weaker, since amplifiers could be used to boost the amplitude, or loudness, of the signal.\\
+
+Distortion is where the shape of the wave itself changes, and so the sound coming out of one telephone would be different than what went into the other one, even though it had been amplified to be just as loud. Distortion is caused by several factors, which are not important at this point. What is important is how this problem was solved.\\
+
+Audio signals are digitized in a similar fashion as raster images. A sound wave is divided up in time, rather than area.
+
+\section{MIDI}
+
+The audio equivalent of vector graphics is midi data, Musical Instrument Digital Interface. The idea is not to store the literal sound waves, but instead store when certain notes are supposed to be played and a reference to how the sounds should be generated (like a musical instrument).
+
+
+
+

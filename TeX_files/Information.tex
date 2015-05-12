@@ -226,86 +226,9 @@ This might seem strange at first, but in hexadecimal the letter 'a' is actually 
 
 To convert from binary to hexadecimal, you just divide the bits into groups of four, and whatever that number is is the hexadecimal digit for that group. Since a byte is 8 bits, a byte can be written as 2 groups of 4, or two hexadecimal digits: \(11010110_{bin} \rightarrow 1101\quad0110 \rightarrow D6_{hex} \rightarrow 214_{dec}\).
 
-\section{Digital Text}
-
-We've already looked at one method of sending digital text: Morse code. A piece of text is broken up in to a sequence of individual blocks, and somehow the content of that block is specified by a code. A page is broken into a sequence of lines. And each line is broken in to a sequence of characters.\\
-
-\begin{center}\imagegraphic[0.75]{text.png}\end{center}
-
-For a digital text, the available characters are determined first. Basically, a number, or code, is assigned for each separate character we wish to be able to print. Capital letters are separate characters than lower case. A space is a character. More characters are needed for punctuation and other symbols like \$, \&, and any other symbol we wish to be able to represent.\\
-
-We don't want all the text to be on the same line, and so there needs to be a way to tell where the text appears in the vertical direction. Just as there is a character to represent a space, which basically means moving over a certain amount without printing anything, there is a character to represent the action of going to a new line of text without printing anything. This is called the new-line character. Even though we can't 'see' the newline character on a page of text, just like the space character, we can its result. A new-line is usually what happens when you hit 'enter' on your keyboard when typing.\\
-
-Instead of sending dots and dashes, the codes are binary numbers, since our hardware is built to be able to store and send any sequence of bits. Now what numbers, specifically, represent each character? For example, what might be the number for the letter 'A'? Well, it really depends. In some sense the numbers chosen are arbitrary. However, there are certain standards that have been established.\\
-
-If you wish to represent a single character by 8 bits (an 8 bit number), then one of the first standards was the ASCII standard. In ASCII, the letter 'A' is number 65 (in decimal). The letter 'a' is 97. A space is 32, and a new line is 10. Since there are 8 bits to work with, there are 256 possible characters.\\
-
-The ASCII standard is somewhat language specific. Many languages require additional characters. The Unicode standard is a way to add more possible characters needed for other languages and symbols to be written, and itself varies in how many bits are required to represent individual characters. UTF-8 is a variable length 8-bit version which is replacing ASCII. The first 128 characters of UTF-8 are exactly the same as ASCII. When the above message "Have a good day!" is encoded in UTF-8, the result is the following hexadecimal numeric values of the characters.\\
-
-\begin{center}\imagegraphic[0.75]{text_code.png}\end{center}
-
-The message is composed of a total of 16 characters, each requiring 8 bits, or 1 byte, to store. To send this message is then 16 bytes of information. Converted to a string of bits, the above message would look like the following, since each character has to be 8 bits:\\
-
-\begin{verbatim}
-01000100011000010111011001100101001000000110000100100000
-01100111011011110110111101100100001000000110010001100001 
-0111100100100001
-\end{verbatim}
-
-The numeric value of a Unicode character must be found in a lookup table. As a shorthand, a format U+\#\#\#\# (where \# are hexadecimal digits) is used to say "this is a Unicode character with a value of \#\#\#\#". So, the letter 'H' is character U+0044. A space is U+0020, and so on. Remember, this is hexadecimal, not decimal: \(20_{hex} = 32_{dec}\).\\
-
-Notice there are 4 reserved digits (2 bytes). Just doing the math, and knowing these are hexadecimal digits, that gives \(16^4 = 65,536\) possibilities here. However, this is just one sub-set of the total Unicode characters. There are currently a total 17 sets, which specifies a total of \(17 \times 65,536 = 1,114,112\) different characters.\\
-
-\section{Digital Graphics}
-
-\epigraph{Life isn't always \#000000 and \#FFFFFF. It's a million areas of \#888888.}{\textit{unknown}}
-
-The first step to digitize something is to decide how to break it into a discrete number of elements in a systematic way, where each element can take on one of multiple possible values. Then to assign a code to each possible value an element can have. The codes are what are stored or transmitted. To re-construct the original thing requires knowing the meaning of the codes, and effectively running the deconstruction process in reverse. There are two predominant general methods of storing a digital image: raster, and vector.\\
-
-A raster image is probably the most familiar to you. That is the kind of image displayed on a TV or computer monitor. The idea is to divide a 2-dimensional area into a set of rows and columns which defines a grid of small areas, called pixels. If you look close enough at the screen you can probably make out the individual pixels, each with its own color. The more pixels used, the smoother the image can appear. At some point our eyes blend the individual pixels and colors together into a single image.\\
-
-The following are example raster images of the letter 'J', where each pixel is either black or white. Remember that this is different than sending digital text letter 'J', which only required 1 byte of information. A raster image has to specify the value of every pixel against all the values it \textit{could} be. Thus, a raster image can describe not just this shape, or font, of J, but any other shape that can fit in the same area.\\
-
-\begin{center}\imagegraphic[0.25]{J1.png}\imagegraphic[0.25]{J2.png}\imagegraphic[0.32]{J3.png}\end{center}
-
-The first image on the left has \(20\times21=420\) pixels. Since there are only two colors, we could encode each pixel with a single bit (0 for black and 1 for white), and so would take 420 bits to store. The next image has twice the resolution, \(40\times42=1680 \) pixels, which makes the curves slightly smoother, but requites 4 times as much information to store. The final image has many times the resolution, and should look fairly smooth, even though if you zoom in you can still see the individual pixels.\\
-
-There are many different image formats which store this type of image. The general idea is to store a numerical value for each pixel which can be translated in to a color. The simplest color scheme to understand is the gray scale, like a black and white photo.\\
-
-\begin{center}\imagegraphic[0.75]{picture_bw.png}\end{center}
-
-\begin{center}\imagegraphic[0.75]{picture_bw_building.png}\end{center}
-
-So, one problem might be how to turn a color in to a number.\\
-
-\begin{center}\imagegraphic[0.75]{picture_color.png}\end{center}
-
-
-\begin{center}\imagegraphic[0.75]{picture_color_building.png}\end{center}
-
-
-
-\begin{center}\imagegraphic[0.25]{gray.png}\end{center}
-\begin{center}\imagegraphic[0.25]{gray32.png}\end{center}
-\begin{center}\imagegraphic[0.25]{red32.png}\end{center}
-\begin{center}\imagegraphic[0.25]{green32.png}\end{center}
-\begin{center}\imagegraphic[0.25]{blue32.png}\end{center}
-\begin{center}\imagegraphic[0.50]{additive.png}\end{center}
-
-\section{Digital Audio}
-
-\epigraph{Art is how we decorate space; music is how we decorate time.}{unknown}
-
-Audio was first digitized in the development of the telephone network. Before they worked digitally, telephones operated on an analog system. The sound of the voice of a person was translated into a voltage by a microphone, and those voltages were carried directly by wires over large distances to a another telephone. The problem was that over large distances the signals became distorted. This is different than just becoming weaker, since amplifiers could be used to boost the amplitude, or loudness, of the signal.\\
-
-Distortion is where the shape of the wave itself changes, and so the sound coming out of one telephone would be different than what went into the other one, even though it had been amplified to be just as loud. Distortion is caused by several factors, which are not important at this point. What is important is how this problem was solved.\\
-
-
-
-
 \section{Error Correction}
 
-\begin{center}\imagegraphic[0.25]{J1err.png}\end{center}
+
 
 \section{Encryption}
 
