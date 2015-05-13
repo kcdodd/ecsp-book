@@ -10,9 +10,9 @@ that they can make something they enjoy the results of.
 Platform specifics will include:
 - JavaScript - programming
 - HTML/CSS - visual formatting
-- [GitHub](github.com) - file revision management
-- [Inkscape](inkscape.org) and [GIMP](gimp.org) - image creation and manipulation
-- [Node.js](nodejs.org) - applications and server/client
+- [GitHub](http://github.com) - file revision management
+- [Inkscape](http://inkscape.org) and [GIMP](http://gimp.org) - image creation and manipulation
+- [Node.js](http://nodejs.org) - applications and server/client
 
 ### Dependencies to compile the book
 - LaTeX (EG [TeX Live](https://www.tug.org/texlive/))
