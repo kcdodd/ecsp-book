@@ -30,6 +30,50 @@ The numeric value of a Unicode character must be found in a lookup table. As a s
 
 Notice there are 4 reserved digits (2 bytes). Just doing the math, and knowing these are hexadecimal digits, that gives \(16^4 = 65,536\) possibilities here. However, this is just one sub-set of the total Unicode characters. There are currently a total 17 sets, which specifies a total of \(17 \times 65,536 = 1,114,112\) different characters.\\
 
+\section{Text Compression}
+
+Text is an excellent subject for compression, because it is very redundant. The average information content per character of text is usually only about 3 bits (sometimes even lower), versus the 8 bits we might store it as. The reason it doesn't contain quite as much information as we think is because of patterns. A pattern means each character is less surprising, and we might be able to guess what it is. For example, if I just removed some characters from a word by replacing them with asterisks, could you still guess what the word is? What w***s d* y** t***k I *m typ*** i* t*** se****c*?\\
+
+Humans are very good at seeing patterns by instinct, but it's hard to spell out exactly how we do it. What we need is a method, or algorithm, to find a pattern and use it to remove redundant information, but still be able to replace it later to reconstruct the original.\\
+
+One method is called the Lempel-Ziv algorithm. This algorithm looks for a pattern where a specific sequence of characters appears in more than one place in a piece of text. Let's look at an example that contains a lot of redundancy:\\
+
+\begin{verbatim}
+How much wood would a woodchuck chuck if a woodchuck could chuck
+ wood?
+\end{verbatim}
+
+I'm going to scan through the text, and look at pairs of characters. For each pair, I'm going to scan backwards to see if that pair occurred before. If it did, I'm going to replace the pair with a number (in brackets) that says how many characters back it occurred. The idea is if I can replace 2 characters, which would be 16 bits total, with a single number, which I would store as 8 bits, then every replacement would reduce the total by 8 bits.\\
+
+\begin{verbatim}
+How much wood[5]oul[6]a[8][13]d[20][23]k [6][6][6]if[21][21][21]
+[21][21][21][21][39][39][6][12][12][22][22]d?
+\end{verbatim}
+
+The original sentence had 70 characters, or a total of 560 bits. After the replacements it has 24 letters and 23 numbers, for a total of 376 bits. That gives a compression of about 67\%. But it's only useful if it can be reversed.\\
+
+Start scanning from the beginning of the result. When you get to a number in brackets, go backwards that many characters. Get the two characters that start there, and replace the number in brackets with those two characters. For example, the first number is [5]. So I go back 5 characters. The two characters there are " w" (a space, then 'w'), so I replace the [5] with " w", giving the following:
+
+\begin{verbatim}
+How much wood woul[6]a[8][13]d[20][23]k [6][6][6]if[21][21][21]
+[21][21][21][21][39][39][6][12][12][22][22]d?
+\end{verbatim}
+
+The next number is [6]. 6 characters back from that is "d " ('d', then a space).
+
+\begin{verbatim}
+How much wood would a[8][13]d[20][23]k [6][6][6]if[21][21][21]
+[21][21][21][21][39][39][6][12][12][22][22]d?
+\end{verbatim}
+
+Try uncompressing the following message on your own, using the same rules. How many characters are in the original message, and what is the compression factor?
+
+\begin{verbatim}
+Can you [8][8]a[6][6][6]s[3][9][9]ner[7][7][4][4][17][6][6]?
+\end{verbatim}
+
+The algorithm can be made better by looking at more than 2 characters at a time. Imagine if we can replace entire words with a single number. The compression of text can typically be quite good because of how redundant it really is. However, how much it \textit{can} be compressed is highly dependent on the text itself. How good an algorithm is also usually depends on how much effort is expended to find more obscure patterns. Thus, better compression tends to take longer to perform.
+
 \section{Raster Graphics}
 
 \epigraph{Life isn't always \#000000 and \#FFFFFF. It's a million areas of \#888888.}{\textit{unknown}}
@@ -103,7 +147,11 @@ Of course we have gone beyond black and white. So how are full color images stor
 
 Computer graphics uses additive color mixing because of how the displays are constructed. You can see something on the computer monitor, or TV, because it is emitting light. Essentially each pixel is really three different pixels. If you could look closely, you would see a red pixel, and green pixel, and a blue pixel packed right next to each other. If the red pixel is made brighter, it can only add more red light. The brightest light is when all three are turned on, making white light. These are the primary colors for additive mixing, and is called the RGB color scheme (or red, green, blue).\\
 
-\begin{center}\imagegraphic[0.50]{additive.png}\end{center}
+\begin{center}\imagegraphic[0.75]{RGB_pixels.png}\end{center}
+\begin{center}\imagegraphic[0.25]{RGB_pixels2.png}\imagegraphic[0.25]{Dell_axim_LCD_under_microscope.png}
+	
+http://commons.wikimedia.org/wiki/File:Dell\_axim\_LCD\_under\_microscope.jpg
+\end{center}
 
 Just as with a gray scale, each color is represented by an 8-bit number, and so each color, for each pixel, has 256 possibilities: from black (off), all the way up to fully on for that color.\\
 
@@ -116,6 +164,8 @@ There is no gray pixel. Shades of gray are made by adding equal parts of each co
 
 If the colors are added in non-equal parts, many other colors appear. There are a total of \(256\times256\times256 = 16,777,216 \) possible different colors. In many web-based applications, the RGB values are specified by the literal bit values. This is where hexadecimal numbers come in handy so that we don't have to write out all the bits. Since each color takes 8 bits, that is the same as 2 hexadecimal digits. There are three colors, and so we only need 6 hexadecimal digits to specify a color. The first 2 digits are for red, the next 2 digits are for green, and then blue.\\
 
+\begin{center}\imagegraphic[0.50]{additive.png}\end{center}
+
 For example, to say red would be \#FF0000, since we want red but not green or blue. Remember that in hex, FF is the same as 11111111 in binary. The \# sign comes from historical reasons to mean "rgb color specified by hexadecimal number".\\
 
 \#00FF00 would be green, and \#0000FF would be blue. To make yellow you combine red and green (but not blue), and so yellow would be \#FFFF00. Since magenta is made by combining blue and red, it would be \#FF00FF. Which color would be \#00FFFF? Well, the first 2 digits are zero so you know there's no red. The rest of the digits are F, which means it has full green and blue. Blue and green make the color cyan.\\
@@ -124,28 +174,40 @@ There is often a 4th "color" (or channel) added to the mix, called alpha. What t
 
 All four channels together would take up \(8\times 4 = 32 \) bits, and so this is called a 32 bit color. If the alpha is ignored, that's 24 bits per pixel. Most graphics you see are using either 24 bit or 32 bit colors.  So, if you have an image that is 1280 by 720, a total of \(1280\times720\times24 = 22,118,400\) bits, or 2,764,800 bytes, are required to store the entire image.\\
 
-\section{Compression}
+\section{Raster Graphics Compression}
+
+Most images that you encounter are already compressed in some way. Like with text, images tend to be redundant in their information, and so they don't take as many bits to store as it would seem. In a strange inversion of intuition, a purely random image actually contains more information than a recognizable image.
+
+\begin{center}\imagegraphic[0.750]{noise.png}\end{center}
+
+The above image is an example of "noise". Every pixel in the image was set to a random RGB value. The image is \(400 \times 400 = 16,000\) pixels, and so the probability of a color being repeated even once is very small. There is no pattern that can be used to compress the image, even in principle, and is so called incompressible.\\
+
+The reason a random image contains more information is because there are many more possible "noise" images than "recognizable" images. And so if we want to store one particular "noise" image, we have to specify what makes it different than all the other "noise" images.\\
+
+The reason we, as humans, don't think a noise image contains any information is because all noise images look the same to us: we can't really tell the difference. I'm sure you would be hard pressed to tell the difference between the following image and the previous one with just a glance, even though every single pixel is different.\\
+
+\begin{center}\imagegraphic[0.75]{noise2.png}\end{center}
+
+Ok, so now you believe me that we need a pattern to be able to compress something. There are many different image compression algorithms. Some work the same way as described for text, except it just looks at sequences of bytes without interpreting them as letters.\\
+
+However, some image compression algorithms use what is called lossy compression. That is, the original image cannot be reconstructed exactly. This can be acceptable because we humans can't usually tell the difference between two images that have only subtle differences. So a compression algorithm can get away with throwing away some information if it 'looks' the same to a human, even if it's not exactly the same image anymore.\\
+
+As an example, the first image below is compressed with a lossless algorithm, the second one with a lossy algorithm. The second image has lost some details, but has a file size 20x smaller than the first image. If you look closely you may notice differences in colors and shapes of some features. But if the two images were not next to each other you might not notice it.
+
+\begin{center}\imagegraphic[0.75]{picture_bw.png}\end{center}
+\begin{center}\imagegraphic[0.75]{picture_bw.jpg}\end{center}
 
 \section{Vector Graphics}
 
-Another method of storing an image is called vector graphics. The idea of vector graphics is not to divide the image area in to pixels, storing the color of each pixel, but to divide it in to the primitive shapes that exist in the image such as lines, curves, circles, and rectangles. A vector graphics image is stored independent of the resolution that it will be viewed.\\
-
-There is no universal way of storing shapes. Basically, a shape has to be defined by some function that itself may or may not be stored in the image data. What must be stored are parameters that allow the function to define the shape so that it can be displayed. At the very least, there needs to be a way to determine where the shape is and is not, and also what color it is at different locations.\\
+Another method of storing an image is called vector graphics. The idea of vector graphics is not to divide the image area in to pixels, storing the color of each pixel, but to divide it in to the primitive shapes that exist in the image such as lines, curves, circles, and rectangles. A vector graphics 'image' is stored independent of the resolution that it will be viewed.\\
 
 When a vector graphic is displayed on a monitor that is made of pixels, the image is rasterized. It is converted to a raster image made up of pixels. The color of each resulting pixel is determined by what is "under" that pixel, and the color of the thing that is under it.\\
 
-A simple example of how this might work is to store a solid color rectangle. We need to know the position of the rectangle, how long each side of the rectangle is, how the rectangle is oriented, and what color it is. When the image is rasterized, a pixel looks to see if it is 'inside' the rectangle based on the position, size, and orientation. If it is, then the pixel is set to the color of the rectangle. If its not, then its color is set to whatever is the 'background' color. The edges of the shape can have special functions to gradually shade the colors to try to deal with the 'jaggies' caused bu the discrete pixels.
+One useful application of vector graphics is in Fonts and type-setting. Instead of storing a raster image of each letter, it's better to simply store the outline of the letter as a series of curves. Then, when the letter is displayed or printed it is rasterized based on the resolution and size that is desired. Letters and words can be made larger or smaller without worrying about 'jaggies' appearing due to the limited resolution of an original image of the letter.\\
 
-\begin{center}
-	
-	\begin{tabular}{c c}
-		square as vector graphic & 20x20 rasterized image \\
-		\imagegraphic[0.5]{vector_square.png} & \imagegraphic[0.5]{raster_square.png}\\
-	\end{tabular}
-		
-\end{center}
+The most prominent use of vector graphics you are probably familiar with is computer games. A game is not made of a series of static raster images like a movie. What you see is determined in real-time by what you are doing. The information about position, orientation, and general state about a scene is stored as vector data. Then it is rasterized by either your cpu or the graphics card on your computer to produce the image on your screen. This works for both 2D and 3D graphics.\\
 
-A useful application of vector graphics is in Fonts and type-setting. Instead of storing a raster image of each letter, it's better to simply store the outline of the letter as a series of curves. Then, when the letter is displayed or printed it is rasterized based on the resolution and size that is desired. That is the basis of the TrueType font system. Letters and words can be made larger or smaller without worrying about 'jaggies' appearing due to the limited resolution of an original image of the letter.
+
 
 \section{Audio}
 
@@ -155,12 +217,34 @@ Audio was first digitized in the development of the telephone network. Before th
 
 Distortion is where the shape of the wave itself changes, and so the sound coming out of one telephone would be different than what went into the other one, even though it had been amplified to be just as loud. Distortion is caused by several factors, which are not important at this point. What is important is how this problem was solved.\\
 
-Audio signals are digitized in a similar fashion as raster images. A sound wave is divided up in time, rather than area.
+Audio signals are digitized in a similar fashion as raster images. A sound wave is divided up in time, rather than area. The pressure, or loudness, of the wave is recorded at intervals of time just like the brightness of an image is recorded. A number, or code, is assigned to that chunk of time to say how loud it was at that moment. This method is called pulse-code modulation (PCM).
+
+If the chunks of time are small enough, and number of possible 'loudness' levels is high enough, then the sound can be reproduced by causing a speaker to make sound with the correct loudness at exactly the right times.\\
+
+\begin{center}\imagegraphic[0.75]{sound_1.png}\end{center}
+\begin{center}\imagegraphic[0.75]{sound_2.png}\end{center}
+
+So, how did this revolutionize telephones? Since the sound is now a series of numbers, and numbers can be represented by bits, the original audio is converted into a series of 1s and 0s. Each sample is converted into many pulses of 1s and 0s to represent the number that corresponds to how loud the sound is at that moment, instead of sending the sound directly. Suppose each sample is recorded in 8 bits, then every 8 bits gets converted back into a single pulse.\\
+
+Those 1s and 0s are transmitted over the telephone line as voltages just as the analog audio used to be. However, since the machinery knows exactly what a 1 looks like, and what a 0 looks like, as they come over the line it can reconstruct the stream of bits even if the signal is slightly distorted. It couldn't do that with the normal audio because it doesn't know what the original was supposed to sound like. But since it knows what a 1 'sounds' like, and what a 0 'sounds' like, it can make a really good guess as to what they're supposed to be and make them perfect again. Keep in mind that this waveform is not the original signal, but representing the 1s and 0s of the codes.\\
+
+\begin{center}\imagegraphic[0.75]{regenerative.png}\end{center}
+
+Every so often down the telephone line a piece of equipement would take the signal and regenerate it back into the correct form. These are called regenerative repeaters, and their only function is to keep the digital signal together as it's being transmitted even when there is distortion or noise.\\
+
+Now that the bits are ensured to arrive at the destination with the correct values, the original audio is reconstructed performing the PCM in reverse.
+
+\begin{center}\imagegraphic[0.75]{sound_1.png}\end{center}
+
+The two values that describe the quality of digital audio is bit depth and sample rate. Bit depth is how many bits are used per sample, and determine how many 'loudness' levels are possible to represent per sample (like how many color levels in an image). The more bits, the higher the quality, and is either 16 or 24 bits for high quality audio.\\
+
+The sample rate is exactly what it sounds like; the number of samples per unit of time. This is analogous to the resolution of an image. Basically, how many divisions 1 second of sound gets divided into. The sample rate determines the maximum frequency that can be captured. Basically, the sample rate has to be twice as big as the biggest frequency you want to record. The human hearing range is from 20Hz up to 20,000Hz. To capture any sounds we can hear, then the sample rate needs to be above 40kHz (40,000 samples, or divisions, per second). High quality digital audio sample rate is usually set at 44.1kHz. The extra 4.1kHz are used to enable filtering, to smooth out the sound jaggies, so that the resulting maximum frequency is still 20kHz.\\
+
+However, the telephone system used a sample rate of only around 8kHz, which meant it could only pick up frequncies up to around 4kHz. This is why sounds through the telephone don't sound quite right; the higher frequencies are all cut out.
 
 \section{MIDI}
 
-The audio equivalent of vector graphics is midi data, Musical Instrument Digital Interface. The idea is not to store the literal sound waves, but instead store when certain notes are supposed to be played and a reference to how the sounds should be generated (like a musical instrument).
+The audio equivalent of vector graphics is midi data, Musical Instrument Digital Interface. The idea is not to store the literal sound waves, but instead store when certain notes are supposed to be played and a reference to how the sounds should be generated (like a musical instrument).\\
 
-
-
+MIDI files are written in a similar way that sheet music is written. Each note has to specify when it should be played, the tone at which it's played, and for how long.
 
