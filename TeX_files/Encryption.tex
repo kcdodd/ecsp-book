@@ -1,0 +1,47 @@
+\chapter{Encryption}
+
+\epigraph{Any one who considers arithmetical methods of producing random digits is, of course, in a state of sin.}{\textit{John von Neumann}}
+
+
+When information is being transmitted, it is usually possible for the message to be read by people other than the intended recipient. The idea of encryption is to change the message in such a way that only a particular recipient will be able to recover the original message. This is achieved by altering a message using some kind of per-arranged secret information that has only been shared with the recipient you want to be able to read the message.\\
+
+The original message is called the plaintext message. The encrypted message is called the ciphertext. And the secret information is called the key.\\
+
+\section{One-Time Pad}
+
+The first such algorithm we will look at is what is called a one-time pad. A one-time pad is a unique reference material that contains purely random values, which acts as the secret key. The first issue is how to get truly random anything, but assuming you have it you then make an exact copy of the one-time pad and share it with the person you wish to be able to send a message (and noone else). It is important that noone else be able to see this pad (the key), because anyone who has it will be able to read the message. So it must be shared in a known secure manner, such as in person. It might look something like the following.\\
+
+\begin{center}
+	\begin{tabular}{c | c | c | c }
+		 \texttt{zyhdjkxs} & \texttt{noujnbpx} & \texttt{erdtgnhb} & \texttt{txqursil}\\
+		 \texttt{armlijnm} & \texttt{wkrcsjus} & \texttt{xcmyrzfj} & \texttt{iygoosom}\\
+		 \texttt{woqzafpi} & \texttt{neqxbysh} & \texttt{afpvoxww} & \texttt{kvepxkwu}\\
+		 \texttt{boxllkib} & \texttt{tiohhxsg} & \texttt{zbylmrgp} & \texttt{ipuilvvb}\\
+		 \texttt{xedpjdqx} & \texttt{yiyrrndi} & \texttt{bbqptpmy} & \texttt{oxstqgrn}\\
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	
+	\begin{tabular}{c | c }
+
+		a = 0 & n = 13 \\
+		b = 1 & o = 14 \\
+		c = 2 & p = 15 \\
+		d = 3 & q = 16 \\
+		e = 4 & r = 17 \\
+		f = 5 & s = 18 \\
+		g = 6 & t = 19 \\
+		h = 7 & u = 20 \\
+		i = 8 & v = 21 \\
+		j = 9 & w = 22 \\
+		k = 10 & x = 23 \\
+		l = 11 & y = 24 \\
+		m = 12 & z = 25 \\
+	\end{tabular}
+\end{center}
+
+
+At some later time you can encrypt a message using the values on the one-time pad. Basically, each letter is assigned a number value. One random numeric value is added to one plaintext numeric value, and taking the modulus of the maximum number of possibilities. The result of this operation is the ciphertext.\\
+
+Suppose I want to send the message "Meet me at noon", this is the plaintext and has 12 letters (ignoring the spaces). I have already shared the above one-time pad with the person that I want to read the message. Since the message has 12 letters, I need to use 12 random values from the one-time.\\

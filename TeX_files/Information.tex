@@ -226,13 +226,44 @@ This might seem strange at first, but in hexadecimal the letter 'a' is actually 
 
 To convert from binary to hexadecimal, you just divide the bits into groups of four, and whatever that number is is the hexadecimal digit for that group. Since a byte is 8 bits, a byte can be written as 2 groups of 4, or two hexadecimal digits: \(11010110_{bin} \rightarrow 1101\quad0110 \rightarrow D6_{hex} \rightarrow 214_{dec}\).
 
+\section{Error Detection}
+
+\epigraph{\imagegraphic[1.0]{parrot.jpg}}{Parity the parrot}
+
+No communication is perfect. There are two levels to dealing with errors. At a minimum we would like to be able to tell \textit{if} there is an error. This is error detection. If there is an error then we know the information can't be trusted, although we might not know what the error is. Doing that requires some amount of redundant information is added to the original message.\\
+
+For example, suppose someone gave you a phone number over the phone and you wrote it down. The extra information might that they repeat the number, and you check to make sure it is the same both times. This will double the amount of information that was transmitted. Now, what can be determined from just a repeated value?\\
+
+Well, there are 2 cases, either the values are the same, or they're different. If they are different, then you would know one of them was wrong, but wouldn't know which one. If they are both the same, then you will probably assume that they are correct. But, it could be that it was wrong both times. The question is, how sure can we be that it is correct? The problem of error detection is that you can never be 100\% sure that the information is correct. You can only be sure if it's not. The idea though is to make the confidence as high as possible.\\
+
+Let's go back to basics for a second. What if we want give a single yes or no response: a single bit of information. Let's assume that from previous experience we know that we make an error about 5\% of the time. If we send an additional bit to error check the first bit, like repeating a phone number, then the only way that we could think that we got a correct response when we didn't is if we made the same error twice in a row. The chances of doing that, based on previous experience, is found by multiplying the chance of 1 error by itself: \(5\% \times 5\% = 0.25\%\). So this is why repeating information increases our confidence in its correctness, since it is now 99.75\% sure instead of only 95\%.\\
+
+Machines tend to be very accurate, and so the chances of a single bit error are much lower than for people. Duplicating the complete information is a little overkill. A method for using a single additional bit to check a whole group of other bits is called a parity check.\\
+
+The way a parity bit works is to make the total number of 1s, including the parity bit, come out to be even. Let's say I sent the message 0110001 (7 bits). Now I will add one more bit, and I will choose that bit such that the total number of 1s is even, so in this case I add a 1 to the end: 0110001\textbf{1}. Let's say the receiver gets one of the bits wrong: 01101011. Well, they add the 1 bits up, and since there's an odd number now they know an error happened. If I sent the message 0011011, I would add a 0 parity bit so that total number of 1s should always be even: 0011011\textbf{0}.\\
+
+Now, say the probability of a single error is one chance in 10,000 (called the bit error rate), and we send 1,000 bits of information. The chance that one of the bits is in error is about 9\%. That's pretty big! But, if we add a parity bit we can detect if that happens, which it will about 9\% of the time, and ask for the information again. However, a parity bit won't work if there are two errors (or any even number of errors). Suppose I send the message 0110111, add parity bit 1: 0110111\textbf{1}. But two errors happen on the other end: 01111101. They see an even number of 1s, so they don't know an error happened.\\
+
+The chances that there are two errors is 0.4\%, so 0.4\% of the time an error will happen but go undetected. We can 'dial' in how sure we want to be, given how unsure we are about the transmission channel, by adding parity bits more frequently. So, if we put a parity bit every 8 bits, then the chances of an error going undetected would be 0.00003\%. (this is all assuming a bit error rate of 1 in 10,000)
+
 \section{Error Correction}
 
+Another level on top of error detection is if we could determine \textit{what} the error is. With a simple parity bit check, we can only detect that an error occurred, but not which bit it was. If we know what the error is, we can change it to the correct value without having to ask for it again.\\
 
+Suppose we start out sending a stream of data putting a parity bit every 8 bits to do error checking. We notice there is an error in one of the groups. How can we figure out which bit in that group caused the problem? If we think about this in two dimensions, it's a little easier to see how this might work. I can re-write the following hexadecimal number as a series of bits arranged in a grid, with each row being 8 bits (or 2 digits) of the original number.\\
 
-\section{Encryption}
+\begin{center}6C C9 44 4D 33 A0 03 3C\end{center}
 
-\epigraph{Any one who considers arithmetical methods of producing random digits is, of course, in a state of sin.}{\textit{John von Neumann}}
+\begin{center}\imagegraphic[0.75]{errorcorrect.png}\end{center}
+
+Each row represents one group of 7 message bits plus 1 parity bit on the right. Each row should have an even number of 1s. If not, then we know there is an error somewhere on that row. There are 7 rows of message bits, plus a new row entirely of parity bits, where each of those bits correspond to the columns. The number of 1s in a column should also add up to an even number. If a single bit error occurs anywhere, then we can determine which row it's on, and which column. Knowing the row and column will tell us exactly which bit went wrong, and we can fix it.\\
+
+Suppose the receiver of the above bits has the following result. They would go to each row and see if the 1s add up to an even number. If not, they mark that row as having an error. Then go each column, and mark any column with an odd number of 1s. Whatever bit ends up at that row and column should have the opposite value.
+
+\begin{center}6C C9 \textbf{6}4 4D 33 A0 03 3C\end{center}
+
+\begin{center}\imagegraphic[0.75]{errorcorrect2.png}\end{center}
+
 
 \section{Exercises}
 
