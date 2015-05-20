@@ -110,6 +110,8 @@ Feel free to come up with your own messages and try sending it to someone over a
 
 \section{Digital Signals}
 
+\index{digital signal}
+
 Morse code is an example of a digital signal, but the idea can be generalized to send much more information than letters of the alphabet. Morse code was created at a time when the encoding, transmission, and decoding had to be done manually, and was limited by human speed. Modern technology is able to do these functions much more rapidly, and uses digital signals to send text, audio, video, and other forms of information for cellphones, television, and the internet. So, how does all that information get broken down, if not with dots and dashes?\\
 
 The way this is done is very similar to how sheet music is written. In music, individual notes are supposed to played for a specific amount of time, which is regulated by a beat frequency. Music can be played faster or slower by making the beats shorter or longer, but the relation between how long each note lasts is fixed by the sheet music.\\
@@ -152,6 +154,8 @@ It's then converted again and sent into the network electronically over wires to
 However, we don't have to worry about \textit{how} the information is physically being stored or transmitted. The low level hardware is abstracted away so that we only have to deal with the idea of bits.
 
 \section{Binary Numbers}
+
+\index{binary number}
 
 \epigraph{There are 10 types of people in the world. Those who know binary, and those who don't.}{\textit{unknown}}
 
@@ -196,6 +200,8 @@ Numbers bigger than 255 of course require more bits to be represented. We will d
 
 \section{Hexadecimal Numbers}
 
+\index{hexadecimal number}
+
 The name might sound complicated, but it just means base-16. hex (6) + decimal (10) = hexadecimal (16). The idea of using hexadecimal is that binary is just unwieldy to write, and decimal is not a power of 2 which makes converting to and from binary unwieldy as well. Base 16 is a compromise because we can write large numbers more compactly, and also be able to convert to binary very easily.\\
 
 Since this is base 16, each digit can have a value from 0 up to 15, in a similar fashion as base 10 can have a digit from 0 up to 9. But, if we want to only write 1 character per digit, we have a problem because we don't have a single symbol for 15 (or 14, 13, 12, 11, or 10). We need 16 distinct symbols. The solution is to use letters as digits.\\
@@ -228,31 +234,44 @@ To convert from binary to hexadecimal, you just divide the bits into groups of f
 
 \section{Error Detection}
 
+\index{error detection}
+\index{parity bit}
+
 \epigraph{\imagegraphic[1.0]{parrot.jpg}}{Parity the parrot}
 
 No communication is perfect. There are two levels to dealing with errors. At a minimum we would like to be able to tell \textit{if} there is an error. This is error detection. If there is an error then we know the information can't be trusted, although we might not know what the error is. Doing that requires some amount of redundant information is added to the original message.\\
 
-For example, suppose someone gave you a phone number over the phone and you wrote it down. The extra information might that they repeat the number, and you check to make sure it is the same both times. This will double the amount of information that was transmitted. Now, what can be determined from just a repeated value?\\
+Suppose a message is sent twice in a row, in effect two messages. If both messages are the same, then we have more confidence that there is no error. But if they are different, then we know an error happened, but still don't know which message was right.\\
 
-Well, there are 2 cases, either the values are the same, or they're different. If they are different, then you would know one of them was wrong, but wouldn't know which one. If they are both the same, then you will probably assume that they are correct. But, it could be that it was wrong both times. The question is, how sure can we be that it is correct? The problem of error detection is that you can never be 100\% sure that the information is correct. You can only be sure if it's not. The idea though is to make the confidence as high as possible.\\
+Machines tend to be very accurate, and so the chances of a single bit error are much lower than for people. Duplicating the complete information is a little overkill. One method for using only a single additional bit to check a whole group of other bits is called a parity check.\\
 
-Let's go back to basics for a second. What if we want give a single yes or no response: a single bit of information. Let's assume that from previous experience we know that we make an error about 5\% of the time. If we send an additional bit to error check the first bit, like repeating a phone number, then the only way that we could think that we got a correct response when we didn't is if we made the same error twice in a row. The chances of doing that, based on previous experience, is found by multiplying the chance of 1 error by itself: \(5\% \times 5\% = 0.25\%\). So this is why repeating information increases our confidence in its correctness, since it is now 99.75\% sure instead of only 95\%.\\
+The way a parity bit works is to make the total number of 1s, including the parity bit, come out to be even. Let's say I want to send the message 0110001 (7 bits). It has 3 1s and 4 0s. So I add a 1 to the end to make the total number of 1s to be 4, which is even: 0110001\textbf{1} = 63\(_{hex}\). A parity bit does not add any information to a correct message, because if the first 7 bits are "known", then the parity bit is completely determined.\\
 
-Machines tend to be very accurate, and so the chances of a single bit error are much lower than for people. Duplicating the complete information is a little overkill. A method for using a single additional bit to check a whole group of other bits is called a parity check.\\
+\begin{center}\imagegraphic[0.75]{errordetect.png}\end{center}
 
-The way a parity bit works is to make the total number of 1s, including the parity bit, come out to be even. Let's say I sent the message 0110001 (7 bits). Now I will add one more bit, and I will choose that bit such that the total number of 1s is even, so in this case I add a 1 to the end: 0110001\textbf{1}. Let's say the receiver gets one of the bits wrong: 01101011. Well, they add the 1 bits up, and since there's an odd number now they know an error happened. If I sent the message 0011011, I would add a 0 parity bit so that total number of 1s should always be even: 0011011\textbf{0}.\\
+Let's say the receiver gets one of the bits wrong: 0110\textbf{1}011. Well, they add the 1 bits up, and since there's 5 1s, which is odd, they know an error happened. If a different bit was flipped to 0 instead, like 01\textbf{0}00011, then there would be 3 1s, which is also odd. So any single bit error can be caught. If I wanted to send the message 0011011, which already has 4 1s, I would add a 0 parity bit so that total number of 1s should always be even: 0011011\textbf{0} = 33\(_{hex}\). If the receiver ever gets an odd number of 1s they know theres an error and can ask for the message again.\\
 
-Now, say the probability of a single error is one chance in 10,000 (called the bit error rate), and we send 1,000 bits of information. The chance that one of the bits is in error is about 9\%. That's pretty big! But, if we add a parity bit we can detect if that happens, which it will about 9\% of the time, and ask for the information again. However, a parity bit won't work if there are two errors (or any even number of errors). Suppose I send the message 0110111, add parity bit 1: 0110111\textbf{1}. But two errors happen on the other end: 01111101. They see an even number of 1s, so they don't know an error happened.\\
+A parity bit cannot detect errors that occur in pairs. For example, if 01100011 was altered to be 01\textbf{0}0\textbf{1}011 = 4B. The number of 1s is the same. One way to think about an pair of errors is as an 'interchange' of bits. If a 1 becomes a 0, and a different 0 becomes a 1 in a different spot, it is as if the two simply swapped places. There is the same number of 1s and 0s, they're just in a different order.\\
 
-The chances that there are two errors is 0.4\%, so 0.4\% of the time an error will happen but go undetected. We can 'dial' in how sure we want to be, given how unsure we are about the transmission channel, by adding parity bits more frequently. So, if we put a parity bit every 8 bits, then the chances of an error going undetected would be 0.00003\%. (this is all assuming a bit error rate of 1 in 10,000)
+\begin{center}\imagegraphic[0.75]{errordetect2.png}\end{center}
+
+Basically, to be able to detect this type of error we need to add redundant information about the \textit{order} of the bits, not just how many 1s there are. The normal way this is handled is what is called a checksum. However, that technique will be covered in the chapter on encryption.\\
+
+This is a good time to point out that it is not possible, even in principle, to detect \textit{all} errors. This is fundamental to the idea of information. To be able to send information means that there is more than one possible message to be received; that is, there alternative messages. An error is a message received that points to one of those alternatives, instead of the one intended.\\
+
+For example, if we are truly trying to send 7 bits in a message, there are a total of \(2^7 = 128\) different messages that a receiver expects to be able to receive. That means for a 7 bit message, there are always 127 possible errors (alternative messages) that can occur, and no amount of extra information can change that. If an error is not possible, then in fact there is only 1 possible message to be received, rejecting all others, and if there is only 1 \textit{possible} message then that is zero bits of information (not 7).\\
+
+The goal of error detection is not to eliminate an error, but to make the probability of an error going undetected smaller. We have to look at the actual channel over which the information is being transmitted, and determine what are the most common errors. Then we come up with a scheme that can detect those errors by adding redundant information to reduce the probability that they go undetected. But that probability can never be zero unless the channel is known to be error free already.\\
+
+This also only works if errors are random. Imagine if errors were not random, but were caused by a gremlin hiding in the wires. The grimlin could always look at our error detection scheme and come up with messages that look valid (one of the 127 possible alternatives), and simply transmit one of those instead. This is real and called a man-in-the middle attack. Again we will have to revisit this topic in the chapter on encryption.
 
 \section{Error Correction}
 
-Another level on top of error detection is if we could determine \textit{what} the error is. With a simple parity bit check, we can only detect that an error occurred, but not which bit it was. If we know what the error is, we can change it to the correct value without having to ask for it again.\\
+\index{error correction}
 
-Suppose we start out sending a stream of data putting a parity bit every 8 bits to do error checking. We notice there is an error in one of the groups. How can we figure out which bit in that group caused the problem? If we think about this in two dimensions, it's a little easier to see how this might work. I can re-write the following hexadecimal number as a series of bits arranged in a grid, with each row being 8 bits (or 2 digits) of the original number.\\
+Another level on top of error detection is if we could determine \textit{what} the error is. With a simple parity bit check, we can only detect that an error occurred, but not which bit it was. It would be nice if we could know what the error was, so we can change it to the correct value without having to ask for the entire message again.\\
 
-\begin{center}6C C9 44 4D 33 A0 03 3C\end{center}
+Suppose we start out sending a stream of data putting a parity bit every 8 bits to do error detection. Say we send the stream of 64 bits \texttt{6C C9 44 4D 33 A0 03 3C}.\\
 
 \begin{center}\imagegraphic[0.75]{errorcorrect.png}\end{center}
 
@@ -265,12 +284,55 @@ Suppose the receiver of the above bits has the following result. They would go t
 \begin{center}\imagegraphic[0.75]{errorcorrect2.png}\end{center}
 
 
-\section{Exercises}
+\section{Chapter Puzzles}
 
 \begin{enumerate}
 	\item A single flashlight has two possible states that can be perceived by a person at a distance (on and off). How many different states could be perceived using two flashlights? Assume the flashlights are identical. If they are held side-by-side, could someone tell which one was on, when only one of them is on? If someone is far enough away, will the two flashlights appear as a single flashlight when they are both on?
 	
-	\item Suppose a red filter is added to one of the flashlights, and a blue filter is added to the other one. How will having two different colors change how many possible states can be perceived by a person at a distance away? If the two lights look like a single light from far away, what color will they appear when both flashlights are on?
+	\item A red filter is added to one of the flashlights, and a blue filter is added to the other one. How will having two different colors change how many possible states can be perceived by a person at a distance away? If the two lights appear combined from far away, what color will they appear when both flashlights are on? How many bits of information does this represent at a time?
 	
-	\item Suppose we have a 4 state transmission system labeled by the following digits: 0 (off), 1 (on), 2 (on), 3 (on). Come up with a code that uses the off state to separate signals, the letters of the alphabet are specified by a sequence of digits, and a space is also a sequence of digits. What is the minimum sequence of digits needed to send any of the 26 letters or a space? 
+	\item Suppose we have a 4 state transmission system with an off state, and 3 different on states, labeled by the following digits: 0 (off), 1 (on), 2 (on), 3 (on). Come up with a code that uses the off state to separate characters, and the letters of the alphabet are specified by a sequence of on state digits, and a space is also a sequence of on digits. What is the minimum sequence of digits needed to send any of the 26 letters or a space (27 different characters)?
+	
+	\item A balance scale comes with a set of known masses that can be placed on one scale, and when they balance some unknown object on the other scale then the mass of the unknown object becomes known. Suppose the known masses are 1g, 2g, 4g, 8g, 16g, 32g. What is mass of the lightest object that can be weighed? What is mass of the heaviest? If we wanted to be able to measure the mass of any objects up to 127g (in 1g increments), what mass should be made to add to the set, and how would one know if this new mass had the correct value?
+	
+	\item A repeating pattern of bits in a binary number corresponds to a repeating pattern in a hexadecimal number. E.G. \(0001000100010001_{bin} = 1111_{hex}\), \(0101010101010101_{bin} = 5555_{hex}\), \(1111000011110000_{bin} = F0F0_{hex}\). What is the hex pattern for \(0011001100110011_{bin}\)? \(1010101110101011_{bin}\)?
+	
+	\item Using the error correction scheme discussed at the end of this chapter, correct the errors in the following 128 bits (there are 8 errors total).\\
+	
+	\begin{center}\texttt{03 91 27 04 31 00 23 06 0B 35 5E 1D 2D 89 2A 39}\end{center}
+	
+	Once the errors are corrected, discard the last bit in each section (the parity bit), and the 8th and 16th sections (which are all parity bits). Use the resulting numbers to look up the characters in the following table to recover the phrase.
+	
+	\begin{center}
+		\begin{tabular}{c | c }
+			character & hex number \\
+			a & 00 \\
+			b & 01 \\
+			c & 02 \\
+			d & 03 \\
+			e & 04 \\
+			f & 05 \\
+			g & 06 \\
+			h & 07 \\
+			i & 08 \\
+			j & 09 \\
+			k & 0A \\
+			l & 0B \\
+			m & 0C \\
+			n & 0D \\
+			o & 0E \\
+			p & 0F \\
+			q & 10 \\
+			r & 11 \\
+			s & 12 \\
+			t & 13 \\
+			u & 14 \\
+			v & 15 \\
+			w & 16 \\
+			x & 17 \\
+			y & 18 \\
+			z & 19 \\
+			space & 1A \\
+		\end{tabular}
+	\end{center}
 \end{enumerate}
