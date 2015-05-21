@@ -51,4 +51,5 @@ Temporary Items
 *.pyg
 *.synctex.gz
 *.toc
+*.out
 _minted-ecsp

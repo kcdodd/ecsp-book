@@ -174,28 +174,7 @@ There is often a 4th "color" (or channel) added to the mix, called alpha. What t
 
 All four channels together would take up \(8\times 4 = 32 \) bits, and so this is called a 32 bit color. If the alpha is ignored, that's 24 bits per pixel. Most graphics you see are using either 24 bit or 32 bit colors.  So, if you have an image that is 1280 by 720, a total of \(1280\times720\times24 = 22,118,400\) bits, or 2,764,800 bytes, are required to store the entire image.\\
 
-\section{Raster Graphics Compression}
 
-Most images that you encounter are already compressed in some way. Like with text, images tend to be redundant in their information, and so they don't take as many bits to store as it would seem. In a strange inversion of intuition, a purely random image actually contains more information than a recognizable image.
-
-\begin{center}\imagegraphic[0.750]{noise.png}\end{center}
-
-The above image is an example of "noise". Every pixel in the image was set to a random RGB value. The image is \(400 \times 400 = 16,000\) pixels, and so the probability of a color being repeated even once is very small. There is no pattern that can be used to compress the image, even in principle, and is so called incompressible.\\
-
-The reason a random image contains more information is because there are many more possible "noise" images than "recognizable" images. And so if we want to store one particular "noise" image, we have to specify what makes it different than all the other "noise" images.\\
-
-The reason we, as humans, don't think a noise image contains any information is because all noise images look the same to us: we can't really tell the difference. I'm sure you would be hard pressed to tell the difference between the following image and the previous one with just a glance, even though every single pixel is different.\\
-
-\begin{center}\imagegraphic[0.75]{noise2.png}\end{center}
-
-Ok, so now you believe me that we need a pattern to be able to compress something. There are many different image compression algorithms. Some work the same way as described for text, except it just looks at sequences of bytes without interpreting them as letters.\\
-
-However, some image compression algorithms use what is called lossy compression. That is, the original image cannot be reconstructed exactly. This can be acceptable because we humans can't usually tell the difference between two images that have only subtle differences. So a compression algorithm can get away with throwing away some information if it 'looks' the same to a human, even if it's not exactly the same image anymore.\\
-
-As an example, the first image below is compressed with a lossless algorithm, the second one with a lossy algorithm. The second image has lost some details, but has a file size 20x smaller than the first image. If you look closely you may notice differences in colors and shapes of some features. But if the two images were not next to each other you might not notice it.
-
-\begin{center}\imagegraphic[0.75]{picture_bw.png}\end{center}
-\begin{center}\imagegraphic[0.75]{picture_bw.jpg}\end{center}
 
 \section{Vector Graphics}
 
@@ -249,4 +228,27 @@ The audio equivalent of vector graphics is midi data, Musical Instrument Digital
 MIDI files are written in a similar way that sheet music is written. Each note has to specify when it should be played, the tone at which it's played, and for how long.
 
 
+\section{General Compression}
 
+Most images that you encounter are already compressed in some way. Like with text, images tend to be redundant in their information, and so they don't take as many bits to store as it would seem. In a strange inversion of intuition, a purely random image actually contains more information than a recognizable image.
+
+\begin{center}\imagegraphic[0.750]{noise.png}\end{center}
+
+The above image is an example of "noise". Every pixel in the image was set to a random RGB value. The image is \(400 \times 400 = 16,000\) pixels, but there are 16,777,216 possible 24bit colors, and so the probability of a color being repeated even once is very small. There is no repetition or pattern that can be used to compress the image, even in principle, and is so called incompressible.\\
+
+The reason a random image contains more information is because there are many more possible "noise" images than "recognizable" images. And so if we want to store one particular "noise" image, we have to specify what makes it different than all the other "noise" images.\\
+
+The reason we, as humans, don't think a noise image contains any information is because all noise images look the same to us: we can't really tell the difference. I'm sure you would be hard pressed to tell the difference between the following image and the previous one with just a glance, even though every single pixel is different between the two.\\
+
+\begin{center}\imagegraphic[0.75]{noise2.png}\end{center}
+
+Ok, so now you believe me that we need a pattern to be able to compress something. There are many different compression algorithms. Some work the same way as described for text compression, except it just looks at sequences of bytes without interpreting them as letters. Compression can be used on any type of digital media because they are all just made up of a series of bits. Any types of patterns in the bits can be used to compress the data, it is just a matter of figuring out how (the algorithm).\\
+
+However, some image compression algorithms use what is called lossy compression. That is, the original image cannot be reconstructed exactly. This \textit{can} be acceptable because we humans usually can't tell the difference between two images that have only subtle differences. So a compression algorithm can get away with throwing away some information if it 'looks' the same to a human, even if it's not exactly the same image anymore.\\
+
+As an example, the first image below is compressed with a lossless algorithm, the second one with a lossy algorithm. The second image has lost some details, but has a file size 20x smaller than the first image. If you look closely you may notice differences in colors and shapes of some features. But if the two images were not next to each other you might not notice it.
+
+\begin{center}\imagegraphic[0.75]{picture_bw.png}\end{center}
+\begin{center}\imagegraphic[0.75]{picture_bw.jpg}\end{center}
+
+\section{Chapter Puzzles}
