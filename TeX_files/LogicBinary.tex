@@ -1,4 +1,4 @@
-\chapter{Logic and Binary Arithmetic}
+\chapter{Binary Logic}
 
 The logical operators (AND, OR, NOT) are ways of combining truth values, resulting in a new truth value. You can think of them kind of like arithmetic operations, except for boolean values (true or false) instead of numbers.\\
 
@@ -22,11 +22,17 @@ When I say \(A\: OR \: B\), the result is true if they have either key, even if 
 	\end{tabular}
 \end{center}
 
+We can also view the OR operations as the result of a flowchart. You can see below why there is only one way of getting a false result with the OR operation: both A and B have to be false to get false. But there is more than one way to get true.
+
+\begin{center} \imagegraphic[0.5]{flowchart_OR.png}\end{center}
+
 \section{The AND Operator}
 
-In the next scenario, the one door is behind the other door. If the person has key A, but not key B, they cannot get in. If they have key B but not key A, they still cannot get in. They have to have both keys to get through.\\
+In the next scenario, the one door is behind the other door. If the person has key A, but not key B, they cannot get in. If they have key B but not key A, they still cannot get in. \\
 
 \begin{center} \imagegraphic[1.0]{AND.png}\end{center}
+
+So, the result of A AND B is only true if they have both keys; that is, both A and B are true. If either A or B are false, or both, then the result is false.
 
 \begin{center}
 	\begin{tabular}{c | c | c}
@@ -37,6 +43,10 @@ In the next scenario, the one door is behind the other door. If the person has k
 		\textcolor{blue}{true} & \textcolor{blue}{true} & \textcolor{blue}{true} \\ \hline
 	\end{tabular}
 \end{center}
+
+We can also view the AND operation as the result of a flowchart, and why there is only one way of getting a true result from an AND operation; both A and B have to be true. But there is more than one way to get false.
+
+\begin{center} \imagegraphic[0.3]{flowchart_AND.png}\end{center}
 
 \section{Order of Operations}
 
@@ -60,6 +70,10 @@ This time there are 8 total possible outcomes because there are three keys, each
 		\textcolor{blue}{true} & \textcolor{blue}{true} & \textcolor{blue}{true} & \textcolor{blue}{true} & \textcolor{blue}{true}\\ \hline
 	\end{tabular}
 \end{center}
+
+As a flowchart, I simply added an AND using the result of the OR operation.
+
+\begin{center} \imagegraphic[0.5]{flowchart_ORAND.png}\end{center}
 
 Logical operations can usually be thought of in different ways. We could have also thought about the above problem as having two different ways of getting into the gold room. Either having keys A AND C, or having keys B AND C. So, we could write the same result as:\\
 
@@ -86,12 +100,23 @@ In the following scenario the AND operation is done first, however, so that mean
 	\end{tabular}
 \end{center}
 
+Now that the AND is performed first, and OR is second, it causes a minor difference in the flowchart. See if you can spot the difference, and why that means there are more ways for it to result in true than when the OR was done first.
 
-If there are no parenthesis, there are rules for the order of operations. Luckily there is only 1 rule: do the AND first. So, A OR B AND C = A OR (B AND C), since AND gets higher precedence anyway. However, always using parenthesis has the added benefit of always making you think about want you \textit{intend} to do, which helps prevent mistakes.
+\begin{center} \imagegraphic[0.5]{flowchart_ANDOR.png}\end{center}
+
+If there are no parenthesis, then AND is done first. So:
+
+\begin{center}A OR B AND C = A OR (B AND C)\end{center}
+	
+since AND gets higher precedence anyway. However, always using parenthesis has the added benefit of always making you think about want you \textit{intend} to do, which helps prevent mistakes.
 
 \section{The NOT Operator}
 
 The NOT operation simply takes a truth value, and gives whatever the opposite value would be. For example, if A = false (they don't have key A), then that means that NOT A = true. It is just like saying "they don't have key A" (which is true if A = false). If A = true, then NOT A = false, since "they don't have key A" is a false statement in that case.\\
+
+We can also view the NOT operation as the result of a flowchart.
+
+\begin{center} \imagegraphic[0.3]{flowchart_NOT.png}\end{center}
 
 This leads to several important identities. Take the first example where we have A OR B. So, lets say A OR B = G, where G is true when they can get the gold. But say we want to know when NOT G, when do they not get the gold? Well logically they don't get the gold if they don't have either key: NOT G = (NOT A) AND (NOT B). But if we replace the G with the original thing we get the following identity:
 
@@ -99,11 +124,21 @@ This leads to several important identities. Take the first example where we have
 	NOT (A OR B) = (NOT A) AND (NOT B)
 \end{center}
 
+In the view of the flowchart, it is as simple as flipping the results. True becomes false, and false becomes true. 
+
+\begin{center} \imagegraphic[0.5]{flowchart_NOTOR.png}\end{center}
+
+But then where does AND factor in on the right hand side? It's there because it's doing an AND on the 'no' branches now, instead of the 'yes'. I'll rearrange it a little by flipping the no/yes branches coming out of each condition so you can see it really does mean AND.
+
+\begin{center} \imagegraphic[0.3]{flowchart_NOTOR2.png}\end{center}
+
 Now lets do the same thing for the second case where G = A AND B. Logically, they won't get the gold if they don't have one of the keys. So, NOT G = (NOT A) OR (NOT B). Now replacing G with A AND B we get:
 
 \begin{center}
 	NOT (A AND B) = (NOT A) OR (NOT B)
 \end{center}
+
+\begin{center} \imagegraphic[0.3]{flowchart_NOTAND.png}\imagegraphic[0.47]{flowchart_NOTAND2.png}\end{center}
 
 You may notice a pattern here. When you negate an OR, you negate both sides of the OR and then switch the OR to an AND. Also, when you negate an AND, you negate both sides and switch it to an OR.\\
 

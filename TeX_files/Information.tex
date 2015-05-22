@@ -255,7 +255,7 @@ A parity bit cannot detect errors that occur in pairs. For example, if 01100011 
 
 \begin{center}\imagegraphic[0.75]{errordetect2.png}\end{center}
 
-Basically, to be able to detect this type of error we need to add redundant information about the \textit{order} of the bits, not just how many 1s there are. The normal way this is handled is what is called a checksum. However, that technique will be covered in the chapter on encryption.\\
+Basically, to be able to detect this type of error we need to add redundant information about the \textit{order} of the bits, not just how many 1s there are. The normal way this is handled is by using either a checksum or a hash-code. We will talk about those at a later time.\\
 
 This is a good time to point out that it is not possible, even in principle, to detect \textit{all} errors. This is fundamental to the idea of information. To be able to send information means that there is more than one possible message to be received; that is, there alternative messages. An error is a message received that points to one of those alternatives, instead of the one intended.\\
 
@@ -263,7 +263,7 @@ For example, if we are truly trying to send 7 bits in a message, there are a tot
 
 The goal of error detection is not to eliminate an error, but to make the probability of an error going undetected smaller. We have to look at the actual channel over which the information is being transmitted, and determine what are the most common errors. Then we come up with a scheme that can detect those errors by adding redundant information to reduce the probability that they go undetected. But that probability can never be zero unless the channel is known to be error free already.\\
 
-This also only works if errors are random. Imagine if errors were not random, but were caused by a gremlin hiding in the wires. The grimlin could always look at our error detection scheme and come up with messages that look valid (one of the 127 possible alternatives), and simply transmit one of those instead. This is real and called a man-in-the middle attack. Again we will have to revisit this topic in the chapter on encryption.
+This also only works if errors are random. Imagine if errors were not random, but were caused by a gremlin hiding in the wires. The grimlin could always look at our error detection scheme and come up with messages that look valid (one of the 127 possible alternatives), and simply transmit one of those instead. This is real and called a man-in-the middle attack. We will have to revisit this topic in the chapter on encryption.
 
 \section{Error Correction}
 
