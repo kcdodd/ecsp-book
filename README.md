@@ -3,7 +3,7 @@ Book for essentials of computer science and computer science principles, using j
 
 ### Download Compiled PDF
 
-(https://github.com/kcdodd/ecsp-book/raw/master/ecsp.pdf)[https://github.com/kcdodd/ecsp-book/raw/master/ecsp.pdf]
+https://github.com/kcdodd/ecsp-book/raw/master/ecsp.pdf
 
 ### Purpose
 
