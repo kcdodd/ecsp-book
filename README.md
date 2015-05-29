@@ -1,6 +1,12 @@
 # ecsp-book
 Book for essentials of computer science and computer science principles, using javascript as a programming language.
 
+### Download Compiled PDF
+
+(https://github.com/kcdodd/ecsp-book/raw/master/ecsp.pdf)[https://github.com/kcdodd/ecsp-book/raw/master/ecsp.pdf]
+
+### Purpose
+
 The target audience for this book is a student who has no prior exposure to computer science, including early high
 school levels. My goal is to have portions of the book which are not platform specific covering general concepts used
 in computer science. Then portions of the book which use a specific platform to implement
