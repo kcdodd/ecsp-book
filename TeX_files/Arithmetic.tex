@@ -1,0 +1,23 @@
+\chapter{Arithmetic}
+
+You are probably somewhat familiar with doing various forms of arithmetic, and have probably even memorized the results of many operations. But the idea in computer science is to break down that process into a sequence of steps called an algorithm. It is important to understand that there are multiple possible algorithms to accomplish the same result. Remember that an algorithm is a set of directions to a destination, but the same destination can have several possible routes.
+
+\section{Addition and Subtraction}
+
+Let's start simple with the addition of two digits. Like 1+1, or 2+5. You probably don't even need to think about how to do these, you just know the answer. But I want you to think about how to explain what is going on as an algorithm. Something you might not even think about anymore is why do these symbols 1, 2, 3, ... mean anything? We simply memorize their meaning, and the symbol itself does not have any intrinsic value.\\
+
+Let's start by adding 1 to any of the 10 digits (0, 1, 2, 3, 4, 5, 6, 7, 8, 9). We might use some conditional branching, and simply give the answer for each possibility. For the algorithm to be able to handle any digit, we need the idea of a variable. In this example it's called \(x\). And let's call the result \(y\). So We are basically saying how to computer \(y = x+1\), if \(x\) is any digit 0 through 9.\\
+
+\begin{center}\imagegraphic[0.75]{add_1_flowchart.png}\end{center}
+
+Basically, the algorithm defines what adding 1 means for each possible value of \(x\). It checks for what value \(x\) actually has, and gives the answer based on that. But if \(x\) is not 0 through 9, then the answer is undefined because the algorithm doesn't know what to do in that case.\\
+
+
+
+\section{Multiplication}
+
+\section{Floating Point Division}
+
+\section{Integer Division}
+
+\section{Modulus}

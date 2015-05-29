@@ -21,10 +21,14 @@ The first such algorithm we will look at is what is called a one-time pad. A one
 	\end{tabular}
 \end{center}
 
+
+At some later time you can encrypt a message using the values on the one-time pad. Basically, each letter is assigned a number value. One random numeric value is added to one plaintext numeric value, and taking the modulus of the maximum number of possibilities. The result of this operation is the ciphertext.\\
+
+
 \begin{center}
 	
 	\begin{tabular}{c | c }
-
+		
 		a = 0 & n = 13 \\
 		b = 1 & o = 14 \\
 		c = 2 & p = 15 \\
@@ -40,8 +44,5 @@ The first such algorithm we will look at is what is called a one-time pad. A one
 		m = 12 & z = 25 \\
 	\end{tabular}
 \end{center}
-
-
-At some later time you can encrypt a message using the values on the one-time pad. Basically, each letter is assigned a number value. One random numeric value is added to one plaintext numeric value, and taking the modulus of the maximum number of possibilities. The result of this operation is the ciphertext.\\
 
 Suppose I want to send the message "Meet me at noon", this is the plaintext and has 12 letters (ignoring the spaces). I have already shared the above one-time pad with the person that I want to read the message. Since the message has 12 letters, I need to use 12 random values from the one-time.\\

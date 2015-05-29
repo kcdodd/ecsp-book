@@ -1,6 +1,16 @@
 \chapter{Binary Logic}
 
-The logical operators (AND, OR, NOT) are ways of combining truth values, resulting in a new truth value. You can think of them kind of like arithmetic operations, except for boolean values (true or false) instead of numbers.\\
+The basic idea of binary logic is that a particular statement or questions has one of two possible values assigned to it. It is called binary because the two possibilities form a pair, like a pair of wheels on a bicycle. However, a statement can only be assigned one value at a time: It is either \textcolor{blue}{true}, or it is \textcolor{red}{false}. As a flowchart, this allows a branching of a program based on the truth value.\\
+
+\begin{center} \imagegraphic[0.3]{flowchart_true.png}\end{center}
+
+We will also use what is called a Venn diagram to understand when certain combinations of statements are true or false. In the following diagram there is only one statement. The circle is colored blue because inside the circle represents when the questions "Is A true?" is a true statement. Outside the circle represents when the answer to that question is false.\\
+
+\begin{center} \imagegraphic[0.5]{A_venn.png}\end{center}
+
+\section{Logical Operators}
+
+The logical operators (AND, OR, NOT) are ways of combining truth values of multiple statements, resulting in a new truth value. You can think of them kind of like arithmetic operations, except for boolean values (true or false) instead of numbers.\\
 
 \section{The OR Operator}
 
@@ -26,6 +36,10 @@ We can also view the OR operations as the result of a flowchart. You can see bel
 
 \begin{center} \imagegraphic[0.5]{flowchart_OR.png}\end{center}
 
+Yet another way of visualizing an OR operation is in a Venn diagram. The idea of a Venn diagram is to look at all the ways a statement is true. The points inside the A circle represents when A is true, and the points outside of that circle are when A is false. The same is true for the B circle and the truth of B. The combination of both circles is a collection of points representing when either A is true or B is true, which is the same as the statement A OR B.
+
+\begin{center} \imagegraphic[0.5]{OR_venn.png}\end{center}
+
 \section{The AND Operator}
 
 In the next scenario, the one door is behind the other door. If the person has key A, but not key B, they cannot get in. If they have key B but not key A, they still cannot get in. \\
@@ -47,6 +61,12 @@ So, the result of A AND B is only true if they have both keys; that is, both A a
 We can also view the AND operation as the result of a flowchart, and why there is only one way of getting a true result from an AND operation; both A and B have to be true. But there is more than one way to get false.
 
 \begin{center} \imagegraphic[0.3]{flowchart_AND.png}\end{center}
+
+
+As a Venn diagram, the AND operation selects only the area that is common to both A and B.
+
+\begin{center} \imagegraphic[0.5]{AND_venn.png}\end{center}
+
 
 \section{Order of Operations}
 
@@ -75,11 +95,15 @@ As a flowchart, I simply added an AND using the result of the OR operation.
 
 \begin{center} \imagegraphic[0.5]{flowchart_ORAND.png}\end{center}
 
+
+
 Logical operations can usually be thought of in different ways. We could have also thought about the above problem as having two different ways of getting into the gold room. Either having keys A AND C, or having keys B AND C. So, we could write the same result as:\\
 
 \begin{center}
 	(A AND C) OR (B AND C) = (A OR B) AND C
 \end{center}
+
+\begin{center} \imagegraphic[0.5]{ORAND_venn.png}\end{center}
 
 In the following scenario the AND operation is done first, however, so that means that even if they don't have either key B or key C, they can still get in if they have key A. But if they don't have key A, then they have to have both keys B and C to get in.\\
 
@@ -104,11 +128,14 @@ Now that the AND is performed first, and OR is second, it causes a minor differe
 
 \begin{center} \imagegraphic[0.5]{flowchart_ANDOR.png}\end{center}
 
+
 If there are no parenthesis, then AND is done first. So:
 
 \begin{center}A OR B AND C = A OR (B AND C)\end{center}
 	
 since AND gets higher precedence anyway. However, always using parenthesis has the added benefit of always making you think about want you \textit{intend} to do, which helps prevent mistakes.
+
+\begin{center} \imagegraphic[0.5]{ANDOR_venn.png}\end{center}
 
 \section{The NOT Operator}
 
